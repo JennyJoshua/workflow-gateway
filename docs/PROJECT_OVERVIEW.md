@@ -82,6 +82,6 @@ The current assignment is project establishment and planning documentation only.
 - [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
 - [Implementation Roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Acceptance Criteria](ACCEPTANCE_CRITERIA.md)
-- [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) (proposed; owner review pending)
+- [Security Threat Model](SECURITY_THREAT_MODEL.md)\n- [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) (proposed; owner review pending)
 - [Architecture Decision Register](decisions/README.md)
 - [ADR-001](decisions/ADR-001-OVERALL-PLATFORM-DIRECTION.md)
