@@ -1,6 +1,6 @@
 # ADR-002: AI-first, Workflow-second Architecture
 
-- **Status:** Proposed for owner confirmation
+- **Status:** Accepted (owner-approved strategic principle; documentation change pending merge)
 - **Date:** 26 November 2026
 - **Deciders:** Owner; ChatGPT as Chief AI Architect and Independent Reviewer
 - **Scope:** Foundational product and architecture principle; planning/specification only
@@ -77,4 +77,4 @@ The existing milestone sequence and recommended first implementation batch remai
 
 ## Review and governance
 
-This ADR records the strategic direction requested by the owner. It is proposed for formal owner confirmation through the normal review/merge process. Any material change requires a new ADR and owner approval under project change control.
+This ADR records the strategic direction explicitly approved by the owner. Its documentation changes remain subject to the repository's normal review and merge controls. Any material change requires a new ADR and owner approval under project change control.
