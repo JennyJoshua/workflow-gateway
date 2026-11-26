@@ -65,7 +65,7 @@ Structured logs without sensitive content, execution events, metrics and traces;
 
 ## Architecture decisions and review proposals
 
-The ADR register is maintained in [docs/decisions/README.md](decisions/README.md). ADR-001 records the four owner-approved product directions. ADR-002 through ADR-008 are **proposed technology assessments only**; none is an accepted technology decision. The independent review refinements are recorded separately in [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) and require owner review before they become binding requirements.
+The ADR register is maintained in [docs/decisions/README.md](decisions/README.md). ADR-001 records the four owner-approved product directions. ADR-002 through ADR-011 are **proposed technology and cross-cutting architecture assessments only**; none is an accepted technology decision. The independent review refinements are recorded separately in [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) and require owner review before they become binding requirements.
 
 ## Constraints
 
