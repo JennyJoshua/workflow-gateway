@@ -77,7 +77,7 @@ The current assignment is project establishment and planning documentation only.
 
 - [Product Requirements](PRODUCT_REQUIREMENTS.md)
 - [Technical Architecture](TECHNICAL_ARCHITECTURE.md)
-- [Database Specification](DATABASE_SPECIFICATION.md) (proposed; owner review pending)
+- [Database Specification](DATABASE_SPECIFICATION.md) (proposed; see [independent review](DATABASE_SPECIFICATION_REVIEW.md))
 - [Security and Governance](SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](WORKFLOW_REGISTRY_SPECIFICATION.md)
 - [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
