@@ -75,7 +75,7 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 - [Routing and Orchestration Specification](docs/ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
 - [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
 - [Acceptance Criteria](docs/ACCEPTANCE_CRITERIA.md)
-- [Architecture Review Recommendations](docs/ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) (proposed)
+- [Security Threat Model](docs/SECURITY_THREAT_MODEL.md)\n- [Architecture Review Recommendations](docs/ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) (proposed)
 - [Architecture Decision Register](docs/decisions/README.md)
 - [ADR-001 Overall Platform Direction](docs/decisions/ADR-001-OVERALL-PLATFORM-DIRECTION.md)
 - [Milestones](project-management/MILESTONES.md)
