@@ -2,6 +2,10 @@
 
 > Status: planning. Controls below are requirements for future implementation. The formal threat model is WG-003.
 
+## Formal threat model
+
+The detailed design-time analysis, trust boundaries, STRIDE and AI-specific threats, mitigation mapping, approval policy and tabletop scenarios are documented in [Security Threat Model](SECURITY_THREAT_MODEL.md). It is a draft for review; controls are requirements, not implemented guarantees. WG-003 remains open until the owner/reviewer accepts the document and its acceptance criteria are verified.
+
 ## Security principles
 
 Default deny; least privilege; defense in depth; tenant isolation everywhere; secrets never in code, logs or clients; every sensitive action audited; humans approve high-risk actions.
