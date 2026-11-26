@@ -1,6 +1,6 @@
 # Issue Register
 
-All 31 issues are **open and not started**. Writing an issue description does not mean the work is done. GitHub is the source of truth for status. No issue is assigned to a person. Last updated 26 November 2026.
+The register contains 31 issues. WG-031 (issue #31) is completed; the remaining backlog items are tracked individually in GitHub and most remain open/not started. Writing an issue description does not mean the work is done. GitHub is the source of truth for status. No issue is assigned to a person. Last updated 26 November 2026.
 
 | ID | Issue | Milestone | Priority | Type | Phase |
 |---|---|---|---|---|---|
