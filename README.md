@@ -70,6 +70,7 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 - [Project Overview](docs/PROJECT_OVERVIEW.md)
 - [Product Requirements](docs/PRODUCT_REQUIREMENTS.md)
 - [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)\n- [External AI Agent Integration Specification](docs/EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md)
+- [Proposed External REST API — OpenAPI v1](api/openapi/v1.yaml) (planning contract; not deployed)
 - [Security and Governance](docs/SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](docs/WORKFLOW_REGISTRY_SPECIFICATION.md)
 - [Routing and Orchestration Specification](docs/ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
