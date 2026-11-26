@@ -18,7 +18,7 @@ Filter by lifecycle, availability and entitlement; then rank by capability match
 
 Default policy: **proprietary workflow first**. If a qualifying workflow exists with sufficient confidence, use it. Otherwise consider models, plugins and tools, internal agents or a combination. The platform does not force a workflow when another solution is genuinely more suitable.
 
-Policy modes (configurable per organisation and user within platform guardrails): workflow-first (default), model-first, manual selection. Policies can never bypass entitlements or approval gates.
+Policy modes (configurable per workspace—personal or organisation—and user within platform guardrails): workflow-first (default), model-first, manual selection. Policies can never bypass entitlements or approval gates.
 
 Decision factors: confidence, data sensitivity, cost, latency, entitlement, customer policy, approval requirements, provider and tool availability.
 
