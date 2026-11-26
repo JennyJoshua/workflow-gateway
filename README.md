@@ -70,6 +70,7 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 - [Project Overview](docs/PROJECT_OVERVIEW.md)
 - [Product Requirements](docs/PRODUCT_REQUIREMENTS.md)
 - [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)
+- [Database Specification](docs/DATABASE_SPECIFICATION.md) (proposed; no migrations)
 - [Security and Governance](docs/SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](docs/WORKFLOW_REGISTRY_SPECIFICATION.md)
 - [Routing and Orchestration Specification](docs/ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
