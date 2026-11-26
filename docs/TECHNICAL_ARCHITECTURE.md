@@ -63,6 +63,10 @@ Every tenant-owned entity carries an organisation identifier. Row-level security
 
 Structured logs without sensitive content, execution events, metrics and traces; audit logs are append-only. See [Security and Governance](SECURITY_AND_GOVERNANCE.md).
 
+## Architecture decisions and review proposals
+
+The ADR register is maintained in [docs/decisions/README.md](decisions/README.md). ADR-001 records the four owner-approved product directions. ADR-002 through ADR-008 are **proposed technology assessments only**; none is an accepted technology decision. The independent review refinements are recorded separately in [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) and require owner review before they become binding requirements.
+
 ## Constraints
 
 - Workflow lifecycle and availability rules are enforced server-side.
