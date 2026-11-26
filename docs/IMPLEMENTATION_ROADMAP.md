@@ -32,8 +32,8 @@ Full list with links: [Issue Register](../project-management/ISSUE_REGISTER.md).
 1. Decisions before code: ADRs, threat model and database specification first.
 2. Chat foundation now, workflows connected progressively (approved direction).
 3. Security-critical items (tenant isolation, BYOK, approvals and external-agent authorisation) are designed early and verified before any pilot.
-5. External REST/OpenAPI and MCP interfaces are designed around shared backend services; they do not introduce a parallel execution platform. WG-031 is an M0 planning issue, while implementation details remain in the existing M3, M4, M6 and M7 work.
-4. Commercial and ecosystem features follow a proven MVP.
+4. External REST/OpenAPI and MCP interfaces are designed around shared backend services; they do not introduce a parallel execution platform. WG-031 is an M0 planning issue, while implementation details remain in the existing M3, M4, M6 and M7 work.
+5. Commercial and ecosystem features follow a proven MVP.
 
 ## Recommended first implementation batch (for owner approval)
 
