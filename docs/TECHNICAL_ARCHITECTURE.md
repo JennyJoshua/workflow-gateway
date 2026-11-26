@@ -53,11 +53,11 @@ Each will be assessed in an ADR (WG-002). Free-first development is preferred; n
 8. Quality Reviewer checks the result; retry or fallback if needed.
 9. Response is returned; usage and audit events are recorded.
 
-## Database entities (initial proposal; WG-004 finalises)
+## Database entities (proposed baseline; WG-004 specification)
 
-organisations, users, memberships, conversations, messages, models, workflows, workflow_versions, plugins, routing_policies, routing_decisions, executions, execution_events, approvals, credentials (encrypted payload or secret reference only), usage_events, audit_logs, entitlements.
+The detailed logical schema, relationships, constraints, indexes, workspace tenancy, RLS coverage, retention, deletion, export and recovery requirements are defined in [Database Specification](DATABASE_SPECIFICATION.md). The universal tenant key is `workspace_id`, covering both personal and organisation workspaces; `organisation_id` is additionally used where an organisation relationship applies. This resolves the limitation of using an organisation identifier as the tenant key for personal workspaces.
 
-Every tenant-owned entity carries an organisation identifier. Row-level security is a proposed enforcement layer requiring validation.
+The database specification is a planning artifact only. PostgreSQL is the logical reference; Supabase remains a proposed candidate. No database has been provisioned and no migrations have been created or run.
 
 ## Observability
 
