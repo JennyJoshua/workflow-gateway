@@ -49,12 +49,21 @@ The registry distinguishes three availability scopes:
 | approval | Whether and when human approval is required |
 | metering | Usage and pricing hints (future) |
 | dependencies | Other workflows, models or tools required |
+| external_visibility | Whether the workflow may be discovered through approved external interfaces; default deny |
+| required_scopes | Minimum operation/data scopes needed for discovery, execution and result access |
+| api_compatibility | Stable public capability identifier and contract/version compatibility metadata |
+
+## External discovery policy (proposed)
+
+External discovery is a filtered view of the existing workflow registry, not a second catalogue. A workflow is returned only after server-side checks of lifecycle state, availability tier, caller identity, workspace access, entitlement, external visibility policy and required scopes. Internal-only, suspended, deprecated, unreleased or otherwise unauthorised workflows must not leak through names, counts, search suggestions or error differences.
+
+The registry metadata describes capability and required permissions; it does not grant permission. The external caller's current grant is checked again at execution and result retrieval. External exposure defaults to deny and requires an explicit publication/allow-list decision.
 
 ## Execution contract (proposed)
 
-**Request:** execution_id, workflow_id and version, tenant_id, validated inputs, idempotency key, callback reference for async runs.
+**Request:** execution_id, workflow_id and version, trusted server-resolved tenant/workspace context, authenticated principal/client context, validated inputs, idempotency key, callback reference for async runs. Client-supplied tenant/workspace identifiers are selectors only and must be verified server-side.
 
-**Response (sync):** status, outputs validated against output_schema, usage data.
+**Response (sync):** execution_id, status, outputs validated against output_schema, permitted usage data and safe result/file references.
 
 **Async:** immediate acknowledgement with a tracking reference; status reported by signed callback or polling; states queued, running, awaiting approval, succeeded, failed, cancelled, timed out.
 

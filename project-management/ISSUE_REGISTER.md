@@ -1,6 +1,6 @@
 # Issue Register
 
-All 30 issues are **open and not started**. Writing an issue description does not mean the work is done. GitHub is the source of truth for status. No issue is assigned to a person. Last updated 26 November 2026.
+All 31 issues are **open and not started**. Writing an issue description does not mean the work is done. GitHub is the source of truth for status. No issue is assigned to a person. Last updated 26 November 2026.
 
 | ID | Issue | Milestone | Priority | Type | Phase |
 |---|---|---|---|---|---|
@@ -34,5 +34,6 @@ All 30 issues are **open and not started**. Writing an issue description does no
 | WG-028 | [Implement workflow developer publishing process](https://github.com/JennyJoshua/workflow-gateway/issues/28) | M9 | medium | integration, security | expansion |
 | WG-029 | [Build third-party workflow marketplace](https://github.com/JennyJoshua/workflow-gateway/issues/29) | M9 | medium | frontend, backend | expansion |
 | WG-030 | [Conduct security, performance and pilot readiness testing](https://github.com/JennyJoshua/workflow-gateway/issues/30) | M7 | critical | testing, security | mvp |
+| WG-031 | [Define External AI Agent Access Architecture](https://github.com/JennyJoshua/workflow-gateway/issues/31) | M0 | high | architecture, security, integration | foundation |
 
 Note: issue numbers on GitHub match the WG number (WG-007 is issue #7). Priority and type values correspond to the `priority:*`, `type:*` and `phase:*` labels.

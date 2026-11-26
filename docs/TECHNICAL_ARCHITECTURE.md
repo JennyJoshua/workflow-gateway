@@ -27,7 +27,18 @@ Three separate registries: **proprietary workflows**, **external models**, **plu
 ### E. Execution adapters
 Proprietary workflow APIs; GitHub Apps and GitHub Actions; external AI model providers; MCP servers; direct third-party APIs; internal agent capabilities. Each adapter implements a common interface (validate input, execute, report events, map errors).
 
-### F. Infrastructure candidates (evaluate, do not provision)
+### F. External capability interfaces
+
+External AI assistants, agents and applications may consume approved workflow capabilities through two adapters at the application boundary:
+
+- **Versioned REST API + OpenAPI:** documented discovery, execution, status, result and file-reference contracts.
+- **Inbound MCP server:** exposes selected Workflow Gateway capabilities as tools to compatible external assistants.
+
+Both adapters call the same application services, workflow registry, execution supervisor, approval manager, entitlement checks and audit services as the internal chat application. They are not separate orchestration engines or registries. This inbound MCP server direction is distinct from the platform's outbound MCP client integration, where Workflow Gateway consumes tools hosted by third parties.
+
+External callers require authenticated client identity and narrowly scoped, revocable authorisation. The backend remains authoritative for workspace context, workflow lifecycle, entitlement, data scope, approvals and rate limits. See [External AI Agent Integration Specification](EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md) and WG-031.
+
+### G. Infrastructure candidates (evaluate, do not provision)
 
 | Candidate | Possible role | Status |
 |---|---|---|
@@ -68,5 +79,7 @@ Structured logs without sensitive content, execution events, metrics and traces;
 - Workflow lifecycle and availability rules are enforced server-side.
 - No unfinished workflow is exposed as a commercial service.
 - Provider, workflow and tool credentials are never exposed to the client.
+- External interfaces reuse the same backend security and execution services; they do not bypass approvals or tenant isolation.
+- External capability discovery is permission-filtered; successful authentication alone does not grant workflow access.
 
 Related: [Product Requirements](PRODUCT_REQUIREMENTS.md), [ADR-001](decisions/ADR-001-OVERALL-PLATFORM-DIRECTION.md), [Implementation Roadmap](IMPLEMENTATION_ROADMAP.md).
