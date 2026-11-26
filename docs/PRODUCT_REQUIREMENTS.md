@@ -33,7 +33,7 @@
 | FR-18 | Subscriptions and entitlements | WG-026 |
 | FR-19 | Organisation and team accounts | WG-027 |
 | FR-20 | Workflow developer publishing and marketplace | WG-028, WG-029 |
-| FR-21 | Audit log of security-relevant and routing events | WG-003, WG-004, WG-023 |
+| FR-21 | Audit log of security-relevant and routing events | WG-003, WG-004, WG-023 |\n| FR-22 | Authorised external AI assistants and applications can discover, invoke, monitor and retrieve results from approved workflows through versioned REST/OpenAPI and MCP interfaces | WG-031; implementation mapped to WG-007, WG-011, WG-013, WG-015, WG-016, WG-021, WG-022, WG-023 |
 
 ## Non-functional requirements
 
@@ -48,7 +48,7 @@
 | NFR-07 | Accessibility: keyboard and screen-reader support, mobile-first layout |
 | NFR-08 | Extensibility: new models, workflows and tools added through registries and adapters |
 | NFR-09 | Cost control: free-first development; usage metering to track costs |
-| NFR-10 | Maintainability: documented standards, tests and ADRs |
+| NFR-10 | Maintainability: documented standards, tests and ADRs |\n| NFR-11 | Interoperability: versioned, documented external interfaces with stable schemas and backward-compatibility rules |
 
 ## User experience
 
