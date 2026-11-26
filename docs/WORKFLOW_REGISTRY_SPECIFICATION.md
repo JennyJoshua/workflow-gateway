@@ -52,7 +52,7 @@ The registry distinguishes three availability scopes:
 
 ## Execution contract (proposed)
 
-**Request:** execution_id, workflow_id and version, tenant_id, validated inputs, idempotency key, callback reference for async runs.
+**Request:** execution_id, workflow_id and version, workspace_id (the tenant context for both personal and organisation workspaces), validated inputs, idempotency key, callback reference for async runs.
 
 **Response (sync):** status, outputs validated against output_schema, usage data.
 
