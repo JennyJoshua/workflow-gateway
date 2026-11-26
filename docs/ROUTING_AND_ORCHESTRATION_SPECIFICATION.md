@@ -39,7 +39,11 @@ Models are described in the model registry (capabilities, context size, cost cla
 
 ## Plugin and MCP integrations
 
-Plugins and MCP servers are registered with tool schemas and permission scopes, enabled per tenant, and invoked through a common adapter with timeouts and output limits. Tool output is untrusted. Write actions require approval according to policy.
+Plugins and external MCP servers are registered with tool schemas and permission scopes, enabled per tenant, and invoked through a common outbound adapter with timeouts and output limits. Tool output is untrusted. Write actions require approval according to policy.
+
+**Integration direction distinction:** outbound MCP means Workflow Gateway connects to third-party MCP servers and consumes their tools. Inbound MCP means external assistants connect to a Workflow Gateway MCP server and consume our approved workflows. Inbound exposure is specified separately in [External AI Agent Integration Specification](EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md) and tracked by WG-031.
+
+REST/OpenAPI and inbound MCP adapters must call the same discovery, authorisation, execution, approval, status and result services used by the internal chat. They must not create parallel routing or execution systems. External discovery is filtered by the caller's current grants, workflow lifecycle, availability and entitlement. Every invocation is authorised again at execution time.
 
 ## Execution supervision
 
