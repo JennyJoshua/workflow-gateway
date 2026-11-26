@@ -12,7 +12,7 @@ This directory contains the platform's decision history. **Proposed** ADRs are n
 | [ADR-006](ADR-006-LITELLM-MODEL-GATEWAY.md) | LiteLLM model gateway candidate | Proposed; optional, not mandatory for v1 | WG-002 |
 | [ADR-007](ADR-007-LANGGRAPH-ORCHESTRATION.md) | Custom orchestration first; LangGraph optional | Proposed | WG-002 |
 | [ADR-008](ADR-008-MCP-TOOL-INTEGRATION.md) | MCP as one supported integration protocol | Proposed | WG-002 |
-| [ADR template](ADR-TEMPLATE.md) | Standard format for future decisions | Template | WG-002 |
+| [ADR-009](ADR-009-PERSONAL-AND-ORGANISATION-TENANCY.md) | Personal and organisation workspace tenancy | Proposed | WG-002, WG-004, WG-023, WG-027 |\n| [ADR-010](ADR-010-DURABLE-JOB-QUEUE.md) | Durable job admission and queue architecture | Proposed | WG-002, WG-016 |\n| [ADR-011](ADR-011-BYOK-SECRET-ENCRYPTION.md) | BYOK credential encryption and key management | Proposed | WG-002, WG-003, WG-020 |\n| [ADR template](ADR-TEMPLATE.md) | Standard format for future decisions | Template | WG-002 |
 
 ## Decision rules
 
