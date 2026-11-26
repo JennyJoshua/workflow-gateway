@@ -51,7 +51,7 @@ No external interface may call workflow endpoints or workers directly while bypa
 
 ### 4.2 Initial logical endpoint set
 
-Exact paths and schemas are to be finalised during WG-031 and WG-011/WG-015 implementation planning. The following is a minimum capability set, not an instruction to expose every workflow:
+An initial machine-readable contract is maintained in [api/openapi/v1.yaml](../api/openapi/v1.yaml). It is a proposed planning baseline, not a deployed API or a final provider-specific authentication configuration; it must be reviewed and refined during WG-031 and WG-011/WG-015 implementation planning. It defines the initial endpoint set and schemas, not an instruction to expose every workflow:
 
 | Operation | Purpose |
 |---|---|
