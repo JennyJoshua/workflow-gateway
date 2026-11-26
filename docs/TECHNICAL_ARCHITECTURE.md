@@ -63,6 +63,10 @@ Every tenant-owned entity carries an organisation identifier. Row-level security
 
 Structured logs without sensitive content, execution events, metrics and traces; audit logs are append-only. See [Security and Governance](SECURITY_AND_GOVERNANCE.md).
 
+## Security threat model
+
+The design-time threat analysis and trust-boundary data-flow diagram are maintained in [Security Threat Model](SECURITY_THREAT_MODEL.md). It identifies security controls that must be implemented and verified; it does not claim that the logical architecture is already secure in operation.
+
 ## Architecture decisions and review proposals
 
 The ADR register is maintained in [docs/decisions/README.md](decisions/README.md). ADR-001 records the four owner-approved product directions. ADR-002 through ADR-011 are **proposed technology and cross-cutting architecture assessments only**; none is an accepted technology decision. The independent review refinements are recorded separately in [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) and require owner review before they become binding requirements.
