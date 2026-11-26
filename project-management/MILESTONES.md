@@ -4,7 +4,7 @@ Status of every milestone: **open, not started** (planning only). Source of trut
 
 | ID | Milestone | Issues | Purpose |
 |---|---|---|---|
-| M0 | [Architecture and Project Foundation](https://github.com/JennyJoshua/workflow-gateway/milestone/1) | WG-001 to WG-005 | Governance, ADRs, threat model, database specification, standards |
+| M0 | [Architecture and Project Foundation](https://github.com/JennyJoshua/workflow-gateway/milestone/1) | WG-001 to WG-005, WG-031 | Governance, ADRs, threat model, database specification, standards and external-agent access architecture |
 | M1 | [Chat Application Foundation](https://github.com/JennyJoshua/workflow-gateway/milestone/2) | WG-006 to WG-009 | Chat UI, authentication, conversations, model abstraction |
 | M2 | [Intent Analysis and Routing](https://github.com/JennyJoshua/workflow-gateway/milestone/3) | WG-010, WG-014 | Intent analysis and routing policy engine |
 | M3 | [Workflow Registry and Discovery](https://github.com/JennyJoshua/workflow-gateway/milestone/4) | WG-011 to WG-013 | Metadata contract, registry, capability search |
