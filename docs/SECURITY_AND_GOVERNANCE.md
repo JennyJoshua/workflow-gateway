@@ -18,7 +18,7 @@ Default deny; least privilege; defense in depth; tenant isolation everywhere; se
 
 ## Tenant isolation
 
-Organisation identifier on all tenant-owned data, enforced in the application and (proposed) at the database layer. Cross-tenant access must be provably impossible in tests (WG-023, WG-030).
+`workspace_id` on all tenant-owned data (personal and organisation workspaces), enforced in the application and (proposed) at the database layer. `organisation_id` is additionally used where an organisation relationship applies. Cross-workspace access must be provably denied in tests (WG-023, WG-030). See the [Database Specification](DATABASE_SPECIFICATION.md).
 
 ## BYOK and secrets
 
