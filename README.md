@@ -40,13 +40,13 @@ The orchestration engine may use one capability or combine several in a multi-st
 2. **Application backend** — authentication, tenancy, conversations, permissions (candidate: Python FastAPI).
 3. **Central orchestration engine** — Intent Analyst, Workflow Discovery Agent, Model and Tool Router, Execution Supervisor, Quality Reviewer (logical responsibilities, not necessarily separate agents).
 4. **Three registries** — proprietary workflows, external models, plugins and tools.
-5. **Execution adapters** — workflow APIs, GitHub Apps and Actions, model providers, MCP servers, third-party APIs, internal agents.
+5. **Execution adapters and external interfaces** — workflow APIs, GitHub Apps and Actions, model providers, MCP clients/servers, third-party APIs and internal agents. External assistants use versioned REST/OpenAPI or inbound MCP adapters over the same governed workflow services.
 
 Technology choices are **proposed and require validation**. See [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md).
 
 ## Current development status
 
-Phase: **M0 — Architecture and Project Foundation (planning).** The repository, documentation and backlog (10 milestones, 30 issues) have been established. Software implementation has **not** started and is not authorised until the owner approves the first implementation batch.
+Phase: **M0 — Architecture and Project Foundation (planning).** The repository, documentation and backlog (10 milestones, 31 issues) have been established. Software implementation has **not** started and is not authorised until the owner approves the first implementation batch.
 
 ## Roadmap
 
@@ -69,7 +69,7 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 
 - [Project Overview](docs/PROJECT_OVERVIEW.md)
 - [Product Requirements](docs/PRODUCT_REQUIREMENTS.md)
-- [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)
+- [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)\n- [External AI Agent Integration Specification](docs/EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md)
 - [Security and Governance](docs/SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](docs/WORKFLOW_REGISTRY_SPECIFICATION.md)
 - [Routing and Orchestration Specification](docs/ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
