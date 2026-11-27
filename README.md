@@ -2,51 +2,52 @@
 
 > **Status: planning and foundation project — not a production application.** This repository currently contains specifications, governance documents and a GitHub Issues backlog only. No application code, deployment or hosted service exists yet.
 
-Workflow Gateway is an intelligent AI workflow orchestration platform that connects proprietary automation workflows, multiple AI models, plugins and external tools through one conversational interface.
+Workflow Gateway is an AI-powered problem-solving and workflow execution platform. It connects model-agnostic AI intelligence, external tools and integrations, reusable automation workflows, and governed execution through one conversational interface.
 
 ## What it is
 
-A model-independent conversational AI platform. Customers describe what they want to accomplish. A central orchestration engine analyses the intent, searches the proprietary workflow catalogue, evaluates available models and tools, chooses an execution strategy and returns the result through a single chat interface.
+Customers describe the problem or outcome they need. Workflow Gateway determines the most suitable way to help: direct AI reasoning, AI with external tools, an existing reusable workflow, or a recommendation to develop a new workflow when a recurring need justifies one. Human approval is enforced wherever policy or risk requires it.
+
+## Foundational principle: AI-first, workflow-second
+
+Do not create a predefined workflow for every problem. AI models can already solve many tasks dynamically through reasoning, conversation, document analysis, coding and tool use. Workflows are valuable where repeatability, reliable execution, triggers, integrations, business rules, approvals and monitoring justify a structured process.
+
+The platform has three complementary capabilities:
+
+1. **AI Intelligence** — connected, model-agnostic AI capabilities solve suitable problems dynamically without requiring a predefined workflow.
+2. **Workflow Automation** — reusable workflows provide consistent, governed execution for recurring or operational tasks.
+3. **Workflow Gateway** — the intelligent decision and coordination layer selects between direct AI, external tools, existing workflows, or a proposal to develop a new workflow, while enforcing permissions and human approvals.
+
+The default decision principle is to use the simplest safe and suitable capability, not to prefer workflows merely because they exist. This supersedes the earlier workflow-first routing default recorded in ADR-001; see [ADR-002](docs/decisions/ADR-002-AI-FIRST-WORKFLOW-SECOND.md).
 
 ## Why it exists
 
 Businesses otherwise juggle many AI models, plugins and automation tools, each with its own interface, pricing, permissions and risk profile. Workflow Gateway gives customers one place to state a goal while the platform decides how best to achieve it, with governance, approvals and auditability built in.
 
-## Key differentiator
+## How capabilities interact
 
-The proprietary business automation workflows are the principal commercial differentiator. By default the platform is **workflow-first**: a qualifying proprietary workflow is preferred. It does **not** force a workflow when another solution is genuinely more suitable.
-
-## Intended customers
-
-- Small and medium businesses that want automation without assembling tools themselves.
-- Teams and organisations that need governed, auditable AI use.
-- Technical customers who want to bring their own model API keys (BYOK).
-- In a later phase, third-party workflow developers (ecosystem).
-
-## How workflows, models and plugins interact
-
-| Capability | Role | Registry |
+| Capability | Role | Registry / interface |
 |---|---|---|
-| Proprietary workflows | Preferred way to complete matching business tasks | Workflow registry |
-| External AI models | General reasoning, drafting and fallback; platform-managed or customer BYOK | Model registry |
-| Plugins and tools (including MCP servers) | Access to third-party systems and data | Plugin and tool registry |
-| Internal agents | Specialist helpers inside the platform | Internal capabilities |
+| AI models and reasoning | Dynamic problem-solving, analysis, drafting and planning | Model and capability registry |
+| External tools and integrations | Access to third-party systems, data and actions | Plugin and tool registry |
+| Reusable workflows | Repeatable, governed execution for recurring tasks | Workflow registry |
+| Internal agents | Optional specialist capabilities where justified | Internal capability interfaces |
 
-The orchestration engine may use one capability or combine several in a multi-step plan, subject to customer policy, entitlements and human approval gates.
+The orchestration layer may use one capability or combine several in a multi-step plan, subject to customer policy, entitlements and human approval gates. A new workflow is a development recommendation, not an automatic response to every unmatched request.
 
 ## Architecture at a glance
 
-1. **Customer interface** — responsive web chat (candidate: Next.js).
-2. **Application backend** — authentication, tenancy, conversations, permissions (candidate: Python FastAPI).
-3. **Central orchestration engine** — Intent Analyst, Workflow Discovery Agent, Model and Tool Router, Execution Supervisor, Quality Reviewer (logical responsibilities, not necessarily separate agents).
-4. **Three registries** — proprietary workflows, external models, plugins and tools.
-5. **Execution adapters and external interfaces** — workflow APIs, GitHub Apps and Actions, model providers, MCP clients/servers, third-party APIs and internal agents. External assistants use versioned REST/OpenAPI or inbound MCP adapters over the same governed workflow services.
+1. **Customer interface** — responsive conversational experience.
+2. **Application backend** — authentication, tenancy, conversations, permissions.
+3. **Central orchestration and decision layer** — intent understanding, capability assessment, model/tool/workflow selection, execution supervision and quality review.
+4. **Capability registries** — models, tools/plugins and reusable workflows, each with distinct lifecycle and governance.
+5. **Execution adapters and external interfaces** — model providers, external tools, workflow APIs, GitHub Apps and Actions, MCP clients/servers, third-party APIs and internal capabilities. External assistants use versioned REST/OpenAPI or inbound MCP adapters over the same governed services.
 
 Technology choices are **proposed and require validation**. See [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md).
 
 ## Current development status
 
-Phase: **M0 — Architecture and Project Foundation (planning).** The repository, documentation and backlog (10 milestones, 31 issues) have been established. Software implementation has **not** started and is not authorised until the owner approves the first implementation batch.
+Phase: **M0 — Architecture and Project Foundation (planning).** The repository, documentation and backlog are established. Software implementation has **not** started and is not authorised until the owner approves the first implementation batch.
 
 ## Roadmap
 
@@ -69,7 +70,8 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 
 - [Project Overview](docs/PROJECT_OVERVIEW.md)
 - [Product Requirements](docs/PRODUCT_REQUIREMENTS.md)
-- [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)\n- [External AI Agent Integration Specification](docs/EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md)
+- [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)
+- [External AI Agent Integration Specification](docs/EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md)
 - [Proposed External REST API — OpenAPI v1](api/openapi/v1.yaml) (planning contract; not deployed)
 - [Security and Governance](docs/SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](docs/WORKFLOW_REGISTRY_SPECIFICATION.md)
@@ -77,13 +79,14 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 - [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md)
 - [Acceptance Criteria](docs/ACCEPTANCE_CRITERIA.md)
 - [ADR-001 Overall Platform Direction](docs/decisions/ADR-001-OVERALL-PLATFORM-DIRECTION.md)
+- [ADR-002 AI-first, Workflow-second Architecture](docs/decisions/ADR-002-AI-FIRST-WORKFLOW-SECOND.md)
 - [Milestones](project-management/MILESTONES.md)
 - [Issue Register](project-management/ISSUE_REGISTER.md)
 - [Contribution and Change Control](project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md)
 
 ## Governance
 
-The owner approves main-branch merges, production deployments, destructive actions, paid services and upgrades, material scope changes and hosted database migrations. ChatGPT acts as Chief AI Architect and Independent Reviewer. See [Contribution and Change Control](project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md).
+The owner approves main-branch merges, production deployments, destructive actions, paid services and upgrades, material scope changes and hosted database migrations. This strategic architecture update does not authorise implementation, deployment, service provisioning or expansion of the approved MVP scope. ChatGPT acts as Chief AI Architect and Independent Reviewer. See [Contribution and Change Control](project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md).
 
 ## Licence
 
