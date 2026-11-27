@@ -1,6 +1,6 @@
 # Workflow Gateway: Gateway-owned Database Specification (WG-004 re-baseline)
 
-> **Status: proposed logical specification, prepared 27 November 2026, awaiting owner review.** It replaces the physical scope of the [original database specification](DATABASE_SPECIFICATION.md), which is kept as a historical, broader draft. This is a planning artefact: no schema, migration, database or hosted service exists or is authorised. Supabase and every other product remain candidates subject to [ADR-003](decisions/ADR-003-SUPABASE-DATABASE-AUTH.md) as clarified.
+> **Status: proposed logical specification, prepared 27 November 2026, awaiting owner review. OD-1, OD-3 and OD-4 are decided (section 12); the OD-2 retention defaults await owner confirmation.** It replaces the physical scope of the [original database specification](DATABASE_SPECIFICATION.md), which is kept as a historical, broader draft. This is a planning artefact: no schema, migration, database or hosted service exists or is authorised. Supabase and every other product remain candidates subject to [ADR-003](decisions/ADR-003-SUPABASE-DATABASE-AUTH.md) as clarified.
 
 ## 1. Purpose and boundary
 
@@ -36,7 +36,7 @@ Rules that follow:
 - `user_ref`: the stable subject of the Konam-validated identity. It is a reference, not a user row. Gateway holds no password hashes and no profile data beyond display preferences.
 - `workspace_ref`: the workspace resolved for the request from validated identity and verified by Konam. It is never taken from a request body, model output, tool output or callback.
 - Gateway has no membership table. Every request is authenticated at the edge and the workspace context and permission are obtained from Konam as the integration specification requires. Edge checks are defence in depth only.
-- Type and format of both references (UUID or string) follow the Konam API contract and are an open decision (OD-4).
+- Both references are stored as **opaque text, never parsed** (decision OD-4, section 12): length at most 128, a restricted character set, compared by exact match, with no meaning attached. Konam should issue non-guessable identifiers, but Gateway does not depend on their format.
 
 ## 4. Logical entities
 
@@ -54,7 +54,7 @@ All tables below carry `workspace_ref` (not null) unless stated. Types are logic
 | created_at, updated_at, archived_at | UTC |
 | delete_after | nullable; set by the retention policy once decided |
 
-Visibility inside a workspace is an open decision (OD-1). Recommended default: **private to the creator**, with no administrator read access except through an audited, Konam-defined process.
+**Visibility (decision OD-1, owner, 27 November 2026): conversations are private to their creator.** No workspace member, including an administrator, can read another member's conversation. Any compliance or legal-hold access must be a Konam-defined, audited process specified with the API contract.
 
 ### 4.2 messages
 
@@ -98,10 +98,10 @@ The state vocabulary matches the integration specification. Updates are monotoni
 
 workspace_ref, operation_scope, idempotency_key, request_digest, response_ref, created_at, expires_at. Unique on (workspace_ref, operation_scope, idempotency_key). The same key with a different digest is a conflict.
 
-### 4.6 ui_preferences, and gateway_sessions (conditional)
+### 4.6 ui_preferences (and the session decision)
 
 - `ui_preferences`: user_ref, optional workspace_ref, an allow-listed set of display settings (locale, theme, default response mode, preferred model label), updated_at. Preferences never override Konam policy, entitlement or approvals.
-- `gateway_sessions`: only if OD-3 chooses server-side sessions. Fields: id, user_ref, selected workspace_ref, `session_token_hash` (never the token), created_at, expires_at, revoked_at, last_seen_at. If short-lived validated tokens are chosen instead, this table does not exist.
+- `gateway_sessions`: **not part of v1** (decision OD-3, section 12). Gateway relies on short-lived tokens validated at the edge and re-validated by Konam on every operation, so there is no session table. Adding one later needs a specification amendment and owner approval.
 
 ### 4.7 conversation_export_jobs
 
@@ -132,12 +132,12 @@ Application rules, for every request:
 1. Authenticate at the edge and validate issuer, audience, expiry and signature.
 2. Resolve the workspace reference from validated identity and Konam, never from caller-supplied fields.
 3. Confirm with Konam that the principal may act in that workspace for the operation.
-4. Check that every row read or written carries the same `workspace_ref` (and, if OD-1 keeps conversations private, the same `user_ref`).
+4. Check that every row read or written carries the same `workspace_ref` and, for conversations and everything under them, the same `user_ref` (conversations are private).
 5. Apply the same checks to workers, polling jobs, exports and deletion jobs.
 
 Database defence in depth:
 
-- Row-level security enabled on every table above, with policies keyed to a per-transaction setting for `workspace_ref` (and `user_ref` if conversations are private) that only the backend sets after validation.
+- Row-level security enabled on every table above, with policies keyed to per-transaction settings for `workspace_ref` and `user_ref` that only the backend sets after validation.
 - The application connects as a role that is not the table owner and cannot bypass row-level security. Migrations use a separate role, used only against disposable databases unless the owner approves otherwise.
 - **No direct browser access to the database.** On Supabase, the Data API must not expose Gateway tables, and the anonymous and authenticated roles receive no grants.
 - Service-level credentials never reach browser code.
@@ -147,7 +147,7 @@ Database defence in depth:
 - A request in workspace A cannot read, update, delete or infer workspace B data, by any route including guessed identifiers.
 - A message cannot be attached to a conversation in another workspace.
 - A forged or altered workspace reference in a body, header or token claim is rejected.
-- A private conversation is not readable by another member of the same workspace (if OD-1 keeps the default).
+- A private conversation is not readable, listable or exportable by another member of the same workspace, including an administrator.
 - A stale or lower-order Konam state never overwrites a terminal state.
 - A replayed submission with the same idempotency key does not create a second Konam request; the same key with different content is rejected.
 - A direct database connection with the application role cannot bypass row-level security, and browser-facing roles have no access.
@@ -160,22 +160,23 @@ Database defence in depth:
 - Duplicate and out-of-order event delivery is tolerated when mirroring Konam state.
 - Conversation operations are audited at the edge through structured logs with correlation IDs. Gateway keeps no platform audit store; Konam owns authoritative audit.
 
-## 9. Data classification and retention (durations undecided)
+## 9. Data classification and retention (proposed defaults, awaiting owner approval)
 
-Durations are **not decided** and must be set by the owner before any pilot (OD-2). Indefinite retention is not assumed acceptable.
+The durations below are **proposals for the owner to approve, change or reject (OD-2)**. They are not decided, are not legal advice, and no jurisdiction or customer obligation has been confirmed. Organisation workspaces may need different periods, to be set through Konam policy (OD-7). Indefinite retention is not assumed acceptable.
 
-| Data | Examples | Proposed handling |
-|---|---|---|
-| Conversation content | messages and results | Gateway governs retention, with user archive and deletion; no unnecessary copies in logs |
-| Attachment metadata | filenames, references | Deleted with the message; file objects follow OD-6 |
-| Request links | Konam request IDs, cached state | Retained while the conversation exists; contain no content |
-| Idempotency records | digests, references | Short, expiry-based |
-| Sessions (if used) | token hashes | Expire; revoke on logout and on Konam revocation signals |
-| Preferences | display settings | Retained while the account is active |
-| Export artefacts | export files | Short-lived, private, expire automatically |
-| Backups | snapshots | Defined expiry and documented deletion propagation |
+| Data | Examples | Proposed default | Notes |
+|---|---|---|---|
+| Conversation content | messages and results | **12 months after last activity**, then `deletion_pending` with 30 days' notice and an export offer. Users can delete or export at any time; a deletion request completes within 30 days | Balances usefulness against data minimisation; easy to lengthen later, hard to shorten after the fact |
+| Attachment metadata and files | filenames, `file_ref`, stored objects | Removed with the message; stored objects deleted within 30 days of message deletion | Object handling depends on OD-6 |
+| Request links | Konam request IDs, cached state | Deleted with the conversation | Contain no message content |
+| Idempotency records | digests, references | **48 hours** after creation | Must outlast any client retry window |
+| Sessions | none in v1 | Not applicable | Token lifetime is set by Konam's flow; recommend it be short |
+| UI preferences | display settings | Kept while the Konam account is active; deleted within 30 days of Konam's closure notice | |
+| Export artefacts | export files | Download link valid **15 minutes**; object deleted after **24 hours** | Private, short-lived references only |
+| Logs and traces | structured edge logs | **30 days**, no message content or credentials | Correlation IDs only |
+| Backups | database snapshots | No longer than the provider's backup window (7 days on the Pro plan figure in the validation report) | Deleted data may persist in backups until they expire; do not claim immediate deletion there |
 
-Deletion must identify every copy: relational rows, object storage, caches, derived summaries, logs and backups, plus the coordinated deletion of Konam-held task context (OD-7). Provider-side deletion is not promised without evidence.
+Deletion must identify every copy: relational rows, object storage, caches, derived summaries, logs and backups, plus the coordinated deletion of Konam-held task context (OD-7). Completion is claimed only when each applicable store has an evidenced result. Provider-side deletion is not promised without evidence.
 
 ## 10. Migration, backup and recovery (future requirements)
 
@@ -191,16 +192,26 @@ No migration is created by this document. When implementation is separately appr
 
 The controls here address cross-workspace access, forged workspace context, replay and duplicate submission, leakage of content into logs, direct database exposure, stale-state tampering and untrusted model content. The independent review is to map each to the control identifiers in the [Security Threat Model](SECURITY_THREAT_MODEL.md).
 
-## 12. Open decisions for the owner
+## 12. Decisions and open decisions
 
-1. **OD-1** Conversation visibility within a workspace (recommended: creator-private).
-2. **OD-2** Retention durations for conversations, attachment metadata, idempotency records, sessions and exports.
-3. **OD-3** Session model: short-lived validated tokens or a server-side session table. Depends on the identity provider and token flow (Konam open decision 1).
-4. **OD-4** Format of `workspace_ref` and `user_ref`, to match the Konam API contract.
-5. **OD-5** Whether Konam also retains full result content, and the single source of truth for results.
-6. **OD-6** Attachment storage vendor, scanning, size and type limits, and who stores the bytes.
-7. **OD-7** Deletion and export coordination between Gateway and Konam, including workspace closure.
-8. **OD-8** Maximum message size and the large-content strategy.
+### Decided (27 November 2026)
+
+- **OD-1 Conversation visibility: private to the creator.** Owner decision. Consequence: no administrator read access to other members' conversations; any compliance or legal-hold access is a Konam-defined, audited process to be specified with the API contract.
+- **OD-3 Session model: short-lived validated tokens, no `gateway_sessions` table in v1.** Decided by Claude under the owner's delegation ("choose the best for me"). Reasons: Konam is the authoritative identity layer, so a Gateway session store would duplicate session authority, add a secret-bearing table and complicate revocation; Konam re-validates the token on every operation, so revocation takes effect without a Gateway-side list. Revisit only if the identity flow chosen by Konam cannot support this; that needs an amendment and owner approval.
+- **OD-4 Reference format: opaque text, never parsed.** Decided by Claude under the same delegation. `workspace_ref` and `user_ref` are text, at most 128 characters, from a restricted character set, compared by exact match. Reasons: no coupling to Konam's internal ID scheme, any ID type is accepted, and nothing can be inferred from an identifier. Konam is asked to issue non-guessable identifiers.
+
+Items decided by delegation remain open to the owner to overrule, and OD-3 and OD-4 must still be reconciled with the Konam API contract and identity-provider decision.
+
+### Proposed, awaiting owner confirmation
+
+- **OD-2 Retention durations:** the defaults in section 9.
+
+### Still open
+
+- **OD-5** Whether Konam also retains full result content, and the single source of truth for results.
+- **OD-6** Attachment storage vendor, scanning, size and type limits, and who stores the bytes.
+- **OD-7** Deletion and export coordination between Gateway and Konam, including workspace closure.
+- **OD-8** Maximum message size and the large-content strategy.
 
 ## 13. Dependencies
 
@@ -215,7 +226,9 @@ The controls here address cross-workspace access, forged workspace context, repl
 - [x] Isolation, row-level security and negative tests are specified.
 - [x] Retention, export and deletion are specified as proposals.
 - [x] Migration and recovery requirements are stated without performing them.
-- [ ] Owner decisions OD-1 to OD-8 (at least OD-1 to OD-4 before any schema work).
+- [x] OD-1, OD-3 and OD-4 decided (OD-3 and OD-4 by delegation).
+- [ ] OD-2 retention defaults confirmed by the owner.
+- [ ] OD-5 to OD-8 decided (OD-5, OD-7 and OD-8 can follow the Konam API contract).
 - [ ] Owner review and acceptance of this re-baseline.
 - [ ] Independent cross-document consistency review and threat-model mapping.
 - [ ] Alignment with the approved Gateway-to-Konam API contract.
