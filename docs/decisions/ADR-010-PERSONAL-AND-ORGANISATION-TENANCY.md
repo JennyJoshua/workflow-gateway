@@ -1,9 +1,19 @@
 # ADR-010: Personal and Organisation Workspace Tenancy
 
-- **Status:** Accepted — owner-approved 27 November 2026.
+- **Status:** Accepted — owner-approved 27 November 2026. Boundary clarification added 27 November 2026 (owner-approved).
 - **Date:** 2026-11-26
 - **Deciders:** Owner (final approval); ChatGPT (architecture review)
 - **Related issues:** WG-002, WG-004, WG-007, WG-023, WG-027
+
+## Boundary clarification (27 November 2026, owner-approved)
+
+The workspace model below (personal and organisation workspaces, several memberships per user, no user-ID-only tenancy) is unchanged. Ownership is clarified:
+
+- **Konam is authoritative** for workspace identity and creation (including any personal workspace), membership, roles, ownership transfer, suspension and entitlements.
+- Workflow Gateway treats a workspace as an **opaque reference issued by Konam**, derived from validated identity and verified by Konam, never taken from a request body or model output. Gateway-owned tenant records (conversations, messages and related data) carry that reference and are isolated by it, with row-level security as defence in depth.
+- Gateway builds no workspace, organisation, membership, invitation or role tables and no workspace administration features. The membership functions in WG-027 are a Konam dependency.
+- Validation-plan items about member removal, closure and ownership transfer are Konam responsibilities. Gateway's duty is to honour Konam's decision on the next request and to apply the retention and deletion behaviour in the Gateway-owned database specification.
+- The shared-database-with-RLS option applies inside Gateway's own database only. No database is shared with Konam.
 
 ## Context
 
