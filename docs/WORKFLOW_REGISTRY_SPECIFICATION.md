@@ -1,6 +1,6 @@
 # Workflow Registry Specification
 
- > Status: proposed Gateway integration/consumption contract for WG-011 and WG-012. Details require review before becoming final.
+> Status: proposed Gateway integration/consumption contract for WG-011 and WG-012. Details require review before becoming final.
 >
 > **Ownership boundary (owner-confirmed):** Konam owns the authoritative workflow registry, lifecycle, availability, entitlements, discovery and execution admission. This document specifies the capability metadata and discovery/consumption behaviour required by Workflow Gateway; it does not authorise a duplicate Gateway workflow registry or execution database. Gateway displays and forwards requests using permission-filtered results from Konam.
 
