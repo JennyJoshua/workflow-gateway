@@ -5,8 +5,8 @@
 ## Personas
 
 - **Business user** — states goals in plain language, wants results and clear progress.
-- **Organisation administrator** — manages members, integrations, keys, routing policy and usage.
-- **Platform operator (owner)** — manages capability availability, workflow lifecycle, policy and approvals.
+- **Organisation administrator** — manages members, integrations, keys, routing preferences and usage through Gateway; Konam enforces and stores authoritative platform permissions and entitlements.
+- **Platform operator (owner)** — manages capability availability, workflow lifecycle, platform policy and approvals in Konam; Gateway provides the customer-facing interface where appropriate.
 - **Workflow developer** (later) — publishes reusable workflows to the platform.
 
 ## Foundational product principle
@@ -43,7 +43,7 @@ These are product-level requirements for the combined Gateway/Konam experience, 
 | FR-20 | Workflow developer publishing and marketplace | WG-028, WG-029 |
 | FR-21 | Audit log of security-relevant and routing events | WG-003, WG-004, WG-023 |
 | FR-22 | Authorised external AI assistants and applications can discover, invoke, monitor and retrieve results from approved capabilities through versioned REST/OpenAPI and MCP interfaces | WG-031; implementation mapped to WG-007, WG-011, WG-013, WG-015, WG-016, WG-021, WG-022, WG-023 |
-| FR-23 | The Gateway assesses whether a request is best handled by direct AI reasoning, external tools, an existing reusable workflow, or a multi-capability plan, and records an explainable routing decision | WG-010, WG-014 |
+| FR-23 | Gateway submits each goal to Konam; the Konam Capability Router assesses direct AI, authorised tools, existing workflows or a multi-capability plan and records the authoritative explainable routing decision | WG-010, WG-014 |
 | FR-24 | When no suitable capability exists, the Gateway may recommend a separate workflow-development assessment for recurring needs; it must not automatically create or publish a workflow | Planning requirement; backlog mapping to be reviewed during normal issue refinement |
 
 ## Non-functional requirements
