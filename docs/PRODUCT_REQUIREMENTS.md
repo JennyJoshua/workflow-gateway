@@ -44,7 +44,7 @@ These are product-level requirements for the combined Gateway/Konam experience, 
 | FR-21 | Audit log of security-relevant and routing events | WG-003, WG-004, WG-023 |
 | FR-22 | Authorised external AI assistants and applications can discover, invoke, monitor and retrieve results from approved capabilities through versioned REST/OpenAPI and MCP interfaces | WG-031; implementation mapped to WG-007, WG-011, WG-013, WG-015, WG-016, WG-021, WG-022, WG-023 |
 | FR-23 | Gateway submits each goal to Konam; the Konam Capability Router assesses direct AI, authorised tools, existing workflows or a multi-capability plan and records the authoritative explainable routing decision | WG-010, WG-014 |
-| FR-24 | When no suitable capability exists, the Gateway may recommend a separate workflow-development assessment for recurring needs; it must not automatically create or publish a workflow | Planning requirement; backlog mapping to be reviewed during normal issue refinement |
+| FR-24 | When no suitable capability exists, Konam may recommend a separate workflow-development assessment for recurring needs, which Gateway may present to the user; it must not automatically create or publish a workflow | Planning requirement; backlog mapping to be reviewed during normal issue refinement |
 
 ## Non-functional requirements
 
