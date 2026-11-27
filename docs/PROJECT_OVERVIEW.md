@@ -14,20 +14,20 @@ The platform has three complementary capabilities:
 
 1. **AI Intelligence:** model-agnostic AI models dynamically solve suitable problems without requiring a predefined workflow.
 2. **Workflow Automation:** reusable workflows handle recurring tasks that benefit from consistent execution, triggers, integrations, business rules, approvals and monitoring.
-3. **Workflow Gateway:** the intelligent decision and coordination layer determines which capability or combination is appropriate.
+3. **Konam Capability Router:** Konam's internal, model-agnostic decision and coordination capability determines which capability or combination is appropriate. The separate Workflow Gateway application is the customer-facing conversational and external-access layer.
 
-For each request, the Gateway should progressively assess:
+For each request, the Konam Capability Router should progressively assess:
 - Can an AI model solve this directly?
 - Does the task require external tools, data or integrations?
 - Is an existing workflow suitable and authorised?
 - If no suitable capability exists, is the need recurring and valuable enough to recommend developing a new workflow?
 - Does any part of the plan require human approval?
 
-The decision should favour the simplest safe and suitable route. It must not automatically create workflows for one-off or readily solvable tasks. Recommending a new workflow is not authority to create, publish or execute one; development remains subject to separate scope and owner approval.
+The routing decision should favour the simplest safe and suitable route. Konam must not automatically create workflows for one-off or readily solvable tasks. Recommending a new workflow is not authority to create, publish or execute one; development remains subject to separate scope and owner approval.
 
 ## Problem
 
-Customers face a fragmented landscape of AI models, plugins, automation tools and business processes. Choosing and combining them requires expertise and creates governance gaps. The platform provides a single problem-oriented interface and makes the capability choice explainable and governable.
+Customers face a fragmented landscape of AI models, plugins, automation tools and business processes. Choosing and combining them requires expertise and creates governance gaps. Workflow Gateway provides a single problem-oriented interface; Konam makes the authoritative capability choice explainable and governable.
 
 ## Target customers and market
 
@@ -42,7 +42,7 @@ Market sizing, pricing and go-to-market are **not yet defined** and require owne
 
 | Decision | Approved direction |
 |---|---|
-| Platform relationship | Both: standalone application and primary interface to the larger commercial workflow platform |
+| Platform relationship | Customer-facing standalone application and primary external interface to the larger Konam Automation Platform |
 | Model supply | Both: platform-managed models and customer-provided API keys (BYOK) |
 | Problem-solving strategy | AI-first, workflow-second; choose the simplest safe and suitable capability |
 | Workflow role | Reusable governed automation for recurring tasks where consistency and operational controls add value |
