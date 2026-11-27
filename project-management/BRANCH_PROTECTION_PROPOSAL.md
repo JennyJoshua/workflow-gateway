@@ -1,8 +1,8 @@
 # Main Branch Protection Proposal
 
-> **Status: proposed only. Not enabled. Owner approval is required before changing GitHub settings.**
+> **Status: approved by the owner on 27 November 2026 and enabled on `main` with the rule set in section 3. Controls marked defer, later or optional were deliberately not enabled. Sections 5 and 6 below describe the original proposal and are retained for history.**
 >
-> Repository at the time of this proposal: `JennyJoshua/workflow-gateway`. Revisit the canonical repository name and links after the planned transfer to `Konam-Automation-Platform/workflow-gateway`.
+> Repository: `Konam-Automation-Platform/workflow-gateway` (transferred from `JennyJoshua/workflow-gateway`).
 
 ## 1. Purpose
 
