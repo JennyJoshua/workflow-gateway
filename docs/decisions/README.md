@@ -18,6 +18,8 @@ This directory contains the platform's decision history. **Proposed** ADRs are n
 | [ADR-012](ADR-012-BYOK-SECRET-ENCRYPTION.md) | BYOK credential encryption and key management | Proposed | WG-002, WG-003, WG-020 |
 | [ADR template](ADR-TEMPLATE.md) | Standard format for future decisions | Template | WG-002 |
 
+Validation evidence for the proposed technology ADRs: [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md).
+
 ## Decision rules
 
 - An ADR is **Accepted** only after explicit owner approval is recorded.
