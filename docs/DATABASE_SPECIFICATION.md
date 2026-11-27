@@ -4,11 +4,13 @@
 >
 > Planning artifact only. This document defines a portable relational data model, not executable migrations. PostgreSQL is used as the logical reference because it supports the required relational constraints and row-level security, but Supabase and every hosting/database product remain proposed candidates. No database has been provisioned and no schema has been deployed.
 >
+ > **Cross-repository ownership update (owner-confirmed):** This draft must not be implemented as one Gateway database containing every entity listed below. Workflow Gateway owns canonical customer conversations/messages and UI/session data. Konam owns authoritative platform identity, workspace memberships/roles/entitlements, model/tool/workflow registries, routing policies/decisions, plans, executions/events, approvals, credential governance, usage and platform audit. Gateway may retain only the minimum opaque Konam references and non-authoritative identity linkage needed for its application. This database specification must be re-baselined to separate Gateway-owned storage from Konam-owned platform data before WG-004 is accepted or any schema is implemented. No direct database sharing is permitted.
+>
 > **Security note:** No plaintext API keys, OAuth refresh tokens, passwords, session tokens or other reusable secrets may be stored in ordinary application tables.
 
 ## 1. Purpose and design principles
 
-This specification establishes a consistent data model for identity, personal and organisation workspaces, conversations, proprietary workflows, external models and tools, executions, approvals, credentials, usage and audit evidence.
+This historical planning draft describes a broader logical data model. Following the confirmed cross-repository boundary, its physical Gateway database scope is limited to Gateway-owned conversations/messages, UI/session state and necessary non-authoritative references. Platform-wide entities remain described here only for migration/reconciliation analysis and must be stored and governed by Konam, not duplicated in Gateway.
 
 Principles:
 
@@ -51,6 +53,8 @@ Principles:
 ## 3. Tenant and identity model
 
 ### 3.1 Workspace is the universal tenant
+
+**Ownership clarification:** Konam is the authoritative source for workspace identity, membership, roles and entitlements. Gateway must not maintain a competing membership/role database. Any Gateway-side workspace identifier is a reference resolved and authorised through Konam.
 
 A **workspace** is the tenant boundary and can be either:
 
