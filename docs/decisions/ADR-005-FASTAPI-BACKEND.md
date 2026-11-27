@@ -1,6 +1,6 @@
 # ADR-005: FastAPI as the Backend Framework Candidate
 
-- **Status:** Proposed — not owner-approved
+- **Status:** Accepted — owner-approved 27 November 2026, with conditions: pin an exact FastAPI version (no ranges), read release notes before each upgrade, rely on contract tests, and confirm licence and security-reporting process when scaffolding (see the [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md)). Scope is the Gateway application backend only; Konam-owned platform services are outside this decision.
 - **Date:** 2026-11-26
 - **Deciders:** Owner (final approval); ChatGPT (architecture review)
 - **Related issues:** WG-002, WG-005, WG-009, WG-010, WG-015

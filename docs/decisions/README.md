@@ -8,7 +8,7 @@ This directory contains the platform's decision history. **Proposed** ADRs are n
 | [ADR-002](ADR-002-AI-FIRST-WORKFLOW-SECOND.md) | AI-first, workflow-second architecture | Accepted — owner-approved strategic principle; supersedes ADR-001's workflow-first routing default | WG-001, WG-014 |
 | [ADR-003](ADR-003-SUPABASE-DATABASE-AUTH.md) | Supabase database and authentication candidate | Accepted — owner-approved 27 November 2026 | WG-002 |
 | [ADR-004](ADR-004-RENDER-HOSTING.md) | Render hosting candidate | Proposed | WG-002 |
-| [ADR-005](ADR-005-FASTAPI-BACKEND.md) | FastAPI backend candidate | Proposed | WG-002 |
+| [ADR-005](ADR-005-FASTAPI-BACKEND.md) | FastAPI backend candidate | Accepted — owner-approved 27 November 2026, with conditions | WG-002 |
 | [ADR-006](ADR-006-NEXTJS-FRONTEND.md) | Next.js frontend candidate | Accepted — owner-approved 27 November 2026 | WG-002 |
 | [ADR-007](ADR-007-LITELLM-MODEL-GATEWAY.md) | LiteLLM model gateway candidate | Proposed; optional, not mandatory for v1 | WG-002 |
 | [ADR-008](ADR-008-LANGGRAPH-ORCHESTRATION.md) | Custom orchestration first; LangGraph optional | Proposed | WG-002 |

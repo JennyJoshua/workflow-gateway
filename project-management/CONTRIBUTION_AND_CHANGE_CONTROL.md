@@ -47,7 +47,7 @@ Branch protection on `main` was approved by the owner on 27 November 2026 under 
 
 ## Licensing (decided)
 
-On 27 November 2026 the owner decided that Workflow Gateway is proprietary: **all rights reserved**. See [LICENSE](../LICENSE). No open-source licence applies, and public visibility of the repository grants only the viewing and forking rights in GitHub's Terms of Service. The owner should confirm the copyright holder's legal name in the LICENSE file and obtain legal advice before commercial launch.
+On 27 November 2026 the owner decided that Workflow Gateway is proprietary: **all rights reserved**. See [LICENSE](../LICENSE). No open-source licence applies, and public visibility of the repository grants only the viewing and forking rights in GitHub's Terms of Service. The copyright holder named in LICENSE is Mavos Solutions (owner-confirmed 27 November 2026). The owner should obtain legal advice before commercial launch.
 
 ## Related documents
 

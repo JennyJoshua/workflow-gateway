@@ -1,6 +1,6 @@
 # Workflow Gateway Security Threat Model
 
-> **Status: Draft for independent review — planning artifact only.**
+> **Status: Accepted by the owner as the security baseline on 27 November 2026; any independent-review findings are handled through change control. Planning artifact only.**
 >
 > Scope is the logical architecture and proposed controls as at 26 November 2026. Technology choices remain proposals. This document does not authorise application implementation, service provisioning, penetration testing, production credentials, database migrations, paid services or live customer data.
 >
