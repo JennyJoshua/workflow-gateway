@@ -93,4 +93,4 @@ The owner approves main-branch merges, production deployments, destructive actio
 
 ## Licence
 
-Licensing is **unresolved pending owner confirmation**. See [LICENSE](LICENSE). Until it is resolved, all rights are reserved.
+Workflow Gateway is **proprietary software. All rights reserved.** See [LICENSE](LICENSE). No licence to use, copy, modify or distribute is granted except as stated there.
