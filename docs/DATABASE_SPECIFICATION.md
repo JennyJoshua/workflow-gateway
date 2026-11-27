@@ -1,6 +1,6 @@
 # Workflow Gateway — Initial Database Specification
 
-> **Status: Proposed logical specification for WG-004; owner acceptance pending.**
+> **Status: Owner accepted the direction on 27 November 2026, but acceptance of this specification is conditional on the re-baseline required by the ownership update below. Until that re-baseline is done and reviewed, no schema may be implemented and WG-004 is not complete.**
 >
 > Planning artifact only. This document defines a portable relational data model, not executable migrations. PostgreSQL is used as the logical reference because it supports the required relational constraints and row-level security, but Supabase and every hosting/database product remain proposed candidates. No database has been provisioned and no schema has been deployed.
 >
