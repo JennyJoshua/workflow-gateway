@@ -38,16 +38,16 @@ Routine documentation and repository setup within an approved handover are autho
 
 ## Main branch protection
 
-The proposed protection policy is documented in [Branch Protection Proposal](BRANCH_PROTECTION_PROPOSAL.md). It is not enabled. The owner must explicitly approve the exact settings before any GitHub branch-protection or ruleset changes are made. The proposal accounts for the current single-maintainer arrangement and the absence of validated CI status checks.
+Branch protection on `main` was approved by the owner on 27 November 2026 under the rule set in [Branch Protection Proposal](BRANCH_PROTECTION_PROPOSAL.md): pull request required, force pushes and deletion blocked, conversation resolution required, enforced for administrators, and no required reviewer or status checks yet. Any change to these rules needs owner approval.
 
 ## Security rules
 
 - No secrets, keys or customer data in the repository (see .gitignore and docs/SECURITY_AND_GOVERNANCE.md).
 - Free-first development: no paid service is subscribed to or upgraded without owner approval.
 
-## Licensing (open decision)
+## Licensing (decided)
 
-No licence has been chosen. The LICENSE file is a placeholder stating all rights are reserved. The owner must decide on a licensing approach appropriate to a proprietary commercial product. Implications while unresolved: the public repository can be viewed and forked on GitHub, but no other reuse rights are granted, and outside contributors cannot clearly contribute. Alternatively, the repository could be made private.
+On 27 November 2026 the owner decided that Workflow Gateway is proprietary: **all rights reserved**. See [LICENSE](../LICENSE). No open-source licence applies, and public visibility of the repository grants only the viewing and forking rights in GitHub's Terms of Service. The owner should confirm the copyright holder's legal name in the LICENSE file and obtain legal advice before commercial launch.
 
 ## Related documents
 
