@@ -1,6 +1,6 @@
 # ADR-006: Next.js as the Frontend Framework Candidate
 
-- **Status:** Proposed — not owner-approved
+- **Status:** Accepted — owner-approved 27 November 2026, with conditions: exact versions are pinned and a security-update cadence is followed (see the [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md)).
 - **Date:** 2026-11-26
 - **Deciders:** Owner (final approval); ChatGPT (architecture review)
 - **Related issues:** WG-002, WG-005, WG-006, WG-025
