@@ -8,7 +8,7 @@
 |---|---|---|---|
 | [ADR-003](decisions/ADR-003-SUPABASE-DATABASE-AUTH.md) | Supabase | Free plan fits **development and demos only** | Pilot with real customer data needs a paid plan (owner approval) |
 | [ADR-004](decisions/ADR-004-RENDER-HOSTING.md) | Render | Free tier cannot run workers or cron; free Postgres expires | Do not use Render Postgres; free web service is demo-only |
-| [ADR-005](decisions/ADR-005-FASTAPI-BACKEND.md) | FastAPI | **Not validated in this pass** | Spike still required |
+| [ADR-005](decisions/ADR-005-FASTAPI-BACKEND.md) | FastAPI | Active, but still pre-1.0 with fast releases and behaviour changes | Recommend acceptance **with conditions**: exact version pins and contract tests |
 | [ADR-006](decisions/ADR-006-NEXTJS-FRONTEND.md) | Next.js | Current, MIT, formal security-release process | Pin versions and adopt an update cadence |
 | [ADR-007](decisions/ADR-007-LITELLM-MODEL-GATEWAY.md) | LiteLLM | MIT core; governance features are paid | Keep a thin in-house abstraction; LiteLLM stays optional |
 | [ADR-008](decisions/ADR-008-LANGGRAPH-ORCHESTRATION.md) | LangGraph | **Not validated in this pass** | No change; custom orchestration first stands |
@@ -40,6 +40,17 @@ Source: [Render free-tier documentation](https://render.com/docs/free).
 1. Do **not** use Render Postgres for anything durable. Supabase (or another approved database) holds data.
 2. A free web service is a demo host only. It cannot run the always-on worker implied by [ADR-011](decisions/ADR-011-DURABLE-JOB-QUEUE.md); for demos the queue must be database-backed with work claimed by the web process, and production workers need a paid instance (owner approval).
 3. Cold starts of about one minute affect the chat experience; acceptable for demos, not for a pilot.
+
+## FastAPI (ADR-005)
+
+Source: [FastAPI release notes](https://fastapi.tiangolo.com/release-notes/). Reviewed 27 November 2026; this is a documentation review, not a hands-on spike.
+
+- Actively maintained: the release notes list 0.163.0 on 14 November 2026, with frequent releases (the 0.140 series was current in late July).
+- **Still a 0.x project.** Minor versions can change behaviour: recent notes describe changes to how omitted boolean form fields, empty file uploads and empty form values are treated. Third-party projects have also pinned or guarded FastAPI versions after regressions (third-party reports, unverified here).
+- Minimum Python version reported by third-party packages is 3.10 or newer; confirm against the official documentation when the project is scaffolded.
+- Licence and security-advisory process were not confirmed from an official source in this pass.
+
+**Implications.** FastAPI remains a reasonable fit for the typed, OpenAPI-first backend in ADR-005, but the project must (1) pin an exact version rather than a range, (2) read release notes before each upgrade, (3) rely on contract tests (see the standards) to catch behaviour changes, and (4) confirm the licence and security-reporting process when scaffolding. A hands-on spike remains advisable: a minimal authenticated, workspace-scoped endpoint exercised in CI.
 
 ## LiteLLM (ADR-007)
 
@@ -73,7 +84,8 @@ Sources: [nextjs.org](https://nextjs.org) and its [blog index](https://nextjs.or
 
 ## Not validated in this pass
 
-- **FastAPI (ADR-005)** and **LangGraph (ADR-008):** no evidence gathered; a spike is still required.
+- **LangGraph (ADR-008):** no evidence gathered; a spike is still required.
+- **FastAPI hands-on spike:** documentation reviewed only; a minimal authenticated, workspace-scoped endpoint tested in CI is still outstanding.
 - **Supabase row-level-security fit, exit cost and data-residency/region choice** for the target market.
 - **Model-provider terms** (data handling, retention) for each provider before it is enabled.
 - **Vercel or alternative hosting** for the Next.js interface.
