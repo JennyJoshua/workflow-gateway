@@ -4,7 +4,22 @@
 
 ## Purpose
 
-The workflow registry stores proprietary workflows and governs who may see and run them. It is one of three separate registries (workflows, models, plugins and tools).
+The workflow registry stores reusable, versioned automations and governs who may discover and run them. It is one part of the platform's broader capability architecture, alongside the model registry and plugin/tool registry.
+
+**AI-first, workflow-second:** the registry is not intended to contain a predefined workflow for every possible problem. Direct model reasoning and model-plus-tool solutions are first-class alternatives. Register workflows where recurring execution benefits materially from repeatable steps, triggers, integrations, business rules, approvals, monitoring or auditability.
+
+## Workflow suitability and admission
+
+A proposed workflow should have a clear reusable purpose and evidence of value. Assessment should consider:
+
+- Recurrence and expected reuse across users or organisations.
+- Stable process steps and well-defined inputs/outputs.
+- Business value compared with direct AI or existing tools.
+- Required integrations, triggers and external actions.
+- Need for deterministic rules, approvals, monitoring or audit.
+- Security, data classification, maintenance burden and operating cost.
+
+Do not register one-off prompts, generic reasoning tasks or thin wrappers around model capabilities merely to increase catalogue size. An unmatched request may be handled directly by AI/tools or lead to a recommendation for separate workflow-development assessment. Workflow creation, publication and commercialisation remain subject to normal owner approval and lifecycle governance.
 
 ## Lifecycle
 
@@ -39,7 +54,7 @@ The registry distinguishes three availability scopes:
 | Field | Description |
 |---|---|
 | id, name, version | Stable identifier, display name, semantic version |
-| description, capabilities, example_intents | Used for discovery |
+| description, capabilities, example_intents | Used for discovery and suitability assessment |
 | owner | Responsible party |
 | lifecycle_state, availability | As above, plus allow-list for selected customers |
 | input_schema, output_schema | JSON schemas |
@@ -52,6 +67,7 @@ The registry distinguishes three availability scopes:
 | external_visibility | Whether the workflow may be discovered through approved external interfaces; default deny |
 | required_scopes | Minimum operation/data scopes needed for discovery, execution and result access |
 | api_compatibility | Stable public capability identifier and contract/version compatibility metadata |
+| suitability_evidence | Optional documented rationale for recurrence, repeatability and value (proposed; validate in WG-011) |
 
 ## External discovery policy (proposed)
 
@@ -74,9 +90,11 @@ The registry metadata describes capability and required permissions; it does not
 - Reject registration without schemas, data classification and approval flags.
 - Reject lifecycle transitions that are not permitted.
 - Never return a workflow to a tenant that lacks entitlement for it.
+- Do not treat a workflow match as proof that a workflow is the best route; the Gateway evaluates suitability against direct AI and tool-based alternatives.
+- No automatic registration or publication from an unmatched user request.
 
 ## Planned workflow product candidates
 
-RepoGuard, IssuePilot, ReleasePilot, DocuFlow and AgentManager are **planned candidates, not completed integrations**. None is registered and none may be presented as available.
+RepoGuard, IssuePilot, ReleasePilot, DocuFlow and AgentManager are **planned candidates, not completed integrations**. None is registered and none may be presented as available. Each candidate should be justified by recurring use and value rather than by the assumption that every problem needs its own workflow.
 
-See [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md) and [Security and Governance](SECURITY_AND_GOVERNANCE.md).
+See [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md), [ADR-002](decisions/ADR-002-AI-FIRST-WORKFLOW-SECOND.md) and [Security and Governance](SECURITY_AND_GOVERNANCE.md).

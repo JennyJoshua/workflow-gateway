@@ -6,9 +6,8 @@
 
 - [x] Repository exists, public, default branch main, Issues enabled.
 - [x] All documents in the agreed structure exist and cross-link.
-- [x] 10 milestones and 30 issues exist with correct milestone assignments and labels.
+- [x] 10 milestones and 31 issues exist with correct milestone assignments and labels.
 - [x] No application code, secrets or deployment configuration in the repository.
-- [x] README states this is a planning and foundation project.
 - [ ] Licensing decision confirmed by the owner (open).
 - [ ] Independent architectural review by ChatGPT completed (pending).
 
@@ -18,9 +17,9 @@
 |---|---|
 | M0 | ADRs and database specification reviewed by ChatGPT and approved by the owner; threat model reviewed; standards documented; no application code produced |
 | M1 | A signed-in user can hold persisted conversations with at least one model through the abstraction layer |
-| M2 | A request yields a structured intent and an explainable routing decision; customer-configurable policy with safe fallback |
-| M3 | Workflows register with validated metadata; lifecycle and availability rules enforced; unfinished workflows never shown as commercially available |
-| M4 | An internally available workflow runs from chat with visible progress, a recorded outcome and a quality review result |
+| M2 | A request yields a structured intent and an explainable capability-routing decision across direct AI, tools and suitable workflows; the selected route is justified by task fit and policy, not a mandatory workflow-first preference |
+| M3 | Reusable workflows register with validated metadata; lifecycle and availability rules enforced; unsuitable one-off tasks are not turned into catalogue entries; unfinished workflows never shown as commercially available |
+| M4 | A suitable internally available reusable workflow runs from chat with visible progress, a recorded outcome and a quality review result |
 | M5 | At least two providers selectable; customer keys encrypted, never displayed after entry, never logged, usable only within the owning tenant |
 | M6 | A plugin or MCP server can be registered, enabled per tenant with explicit permissions and invoked with audit logging |
 | M7 | High-risk actions require recorded approval; cross-tenant access impossible in tests; threat-model mitigations verified; owner signs off pilot readiness |
@@ -36,4 +35,4 @@
 5. No secrets committed; no unapproved paid service used.
 6. Owner approves the merge to main.
 
-See [Implementation Roadmap](IMPLEMENTATION_ROADMAP.md) and [Security and Governance](SECURITY_AND_GOVERNANCE.md).
+See [Implementation Roadmap](IMPLEMENTATION_ROADMAP.md), [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md) and [Security and Governance](SECURITY_AND_GOVERNANCE.md).
