@@ -1,9 +1,14 @@
 Copyright (c) 2026 JennyJoshua. All rights reserved.
 
-LICENCE STATUS: UNRESOLVED — PENDING OWNER CONFIRMATION
+PROPRIETARY SOFTWARE - ALL RIGHTS RESERVED
 
-This file is a placeholder. It is not an open-source licence and no licence has been chosen for Workflow Gateway.
+Workflow Gateway, including its source code, documentation, specifications, designs and other materials in this repository, is proprietary and confidential intellectual property of the copyright holder. It is not open-source software.
 
-Until the owner confirms a licensing approach, no permission is granted to use, copy, modify, distribute or create derivative works of the contents of this repository, except for the rights that GitHub's Terms of Service give users to view and fork public repositories on GitHub.
+No licence or permission is granted to use, copy, modify, merge, publish, distribute, sublicense, sell, host or create derivative works of any part of this repository, except:
 
-The owner is expected to choose a licensing approach appropriate for a proprietary commercial product and replace this file. See project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md (Licensing) for the open decision.
+1. the rights that GitHub's Terms of Service give users to view and fork public repositories on GitHub; and
+2. any rights expressly granted to you in a separate written agreement signed by the copyright holder.
+
+Making this repository publicly visible does not grant any licence. Contributions are accepted only under the terms in project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md or a separate written agreement.
+
+THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
