@@ -5,13 +5,17 @@
 ## Personas
 
 - **Business user** — states goals in plain language, wants results and clear progress.
-- **Organisation administrator** — manages members, integrations, keys, routing policy and usage.
-- **Platform operator (owner)** — manages capability availability, workflow lifecycle, policy and approvals.
+- **Organisation administrator** — manages members, integrations, keys, routing preferences and usage through Gateway; Konam enforces and stores authoritative platform permissions and entitlements.
+- **Platform operator (owner)** — manages capability availability, workflow lifecycle, platform policy and approvals in Konam; Gateway provides the customer-facing interface where appropriate.
 - **Workflow developer** (later) — publishes reusable workflows to the platform.
 
 ## Foundational product principle
 
-The platform is **AI-first, workflow-second**. Do not create a predefined workflow for every problem. AI models should be able to solve suitable tasks dynamically; reusable workflows are used when recurring execution benefits from consistent steps, triggers, integrations, business rules, approvals and monitoring. Workflow Gateway decides which route or combination is suitable and enforces governance. See ADR-002.
+The ecosystem is **AI-first, workflow-second**. Do not create a predefined workflow for every problem. AI models should solve suitable tasks dynamically; reusable workflows are used when recurring execution benefits from repeatability and governance. Konam's Capability Router makes the authoritative route decision and Konam enforces platform policy, permissions, execution and approvals. Workflow Gateway provides the conversational experience and external access boundary. See ADR-002 and the [cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
+
+## Cross-repository requirement ownership
+
+These are product-level requirements for the combined Gateway/Konam experience, not a declaration that every capability is implemented in the Gateway repository. Gateway owns conversations, presentation and external REST/OpenAPI/MCP interfaces. Konam owns authoritative identity, tenancy, capability routing, registries, execution, approvals, usage and platform audit. The Gateway backlog must be reconciled against this split before implementation; no duplicate platform services should be built.
 
 ## Functional requirements
 
@@ -22,16 +26,16 @@ The platform is **AI-first, workflow-second**. Do not create a predefined workfl
 | FR-03 | Persisted conversations and messages with history | WG-008 |
 | FR-04 | Model-independent provider abstraction and model selector | WG-009, WG-019 |
 | FR-05 | Intent analysis producing structured intents and clarifying questions | WG-010 |
-| FR-06 | Explainable, configurable routing across direct AI, tools and reusable workflows; no mandatory workflow preference | WG-014, WG-025 |
-| FR-07 | Workflow registry with lifecycle and availability tiers for reusable automations | WG-011, WG-012 |
-| FR-08 | Capability discovery for models, tools and workflows, filtered by availability and permission | WG-013 |
-| FR-09 | Workflow execution, sync and async, with tracking | WG-015, WG-016 |
+| FR-06 | Explainable, configurable routing across direct AI, tools and reusable workflows; no mandatory workflow preference (authoritative routing supplied by Konam) | WG-014, WG-025 |
+| FR-07 | Customer-facing workflow catalogue backed by Konam's authoritative registry and lifecycle | WG-011, WG-012 |
+| FR-08 | Permission-filtered capability discovery through Konam's authoritative platform services | WG-013 |
+| FR-09 | Submit authorised workflow/task requests to Konam and display its authoritative sync/async status | WG-015, WG-016 |
 | FR-10 | Execution timeline visible in chat | WG-017 |
 | FR-11 | Result quality review | WG-018 |
 | FR-12 | Customer-supplied API keys (BYOK) | WG-020 |
 | FR-13 | Plugin and MCP integration registry | WG-021 |
-| FR-14 | Human approval gates for high-risk actions | WG-022 |
-| FR-15 | Tenant isolation and permissions | WG-023 |
+| FR-14 | Present and submit approval requests enforced and recorded by Konam | WG-022 |
+| FR-15 | Tenant-safe Gateway sessions and external access, integrated with Konam's authoritative tenancy and permissions | WG-023 |
 | FR-16 | Usage metering and customer usage information | WG-024 |
 | FR-17 | Customer settings and routing controls | WG-025 |
 | FR-18 | Subscriptions and entitlements | WG-026 |
@@ -39,8 +43,8 @@ The platform is **AI-first, workflow-second**. Do not create a predefined workfl
 | FR-20 | Workflow developer publishing and marketplace | WG-028, WG-029 |
 | FR-21 | Audit log of security-relevant and routing events | WG-003, WG-004, WG-023 |
 | FR-22 | Authorised external AI assistants and applications can discover, invoke, monitor and retrieve results from approved capabilities through versioned REST/OpenAPI and MCP interfaces | WG-031; implementation mapped to WG-007, WG-011, WG-013, WG-015, WG-016, WG-021, WG-022, WG-023 |
-| FR-23 | The Gateway assesses whether a request is best handled by direct AI reasoning, external tools, an existing reusable workflow, or a multi-capability plan, and records an explainable routing decision | WG-010, WG-014 |
-| FR-24 | When no suitable capability exists, the Gateway may recommend a separate workflow-development assessment for recurring needs; it must not automatically create or publish a workflow | Planning requirement; backlog mapping to be reviewed during normal issue refinement |
+| FR-23 | Gateway submits each goal to Konam; the Konam Capability Router assesses direct AI, authorised tools, existing workflows or a multi-capability plan and records the authoritative explainable routing decision | WG-010, WG-014 |
+| FR-24 | When no suitable capability exists, Konam may recommend a separate workflow-development assessment for recurring needs, which Gateway may present to the user; it must not automatically create or publish a workflow | Planning requirement; backlog mapping to be reviewed during normal issue refinement |
 
 ## Non-functional requirements
 

@@ -4,7 +4,11 @@
 
 ## Strategic direction
 
-The platform is **AI-first, workflow-second**. The MVP must establish useful model-powered problem-solving and the decision layer before expanding the workflow catalogue. Reusable workflows are added where recurring tasks justify structured, governed execution. This is an architectural principle, not permission to expand scope or reorder the approved implementation batches. See ADR-002.
+The combined product is **AI-first, workflow-second**. Konam provides model-powered problem-solving, authoritative routing and governed workflow execution. Workflow Gateway provides the conversational application and external access interfaces. The Gateway roadmap must focus on its own customer experience and integration work rather than duplicating Konam platform services. This is an architectural boundary, not permission to reorder or expand approved implementation batches. See ADR-002 and the [cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
+
+## Cross-repository delivery boundary
+
+The milestone and issue register below is retained for traceability only; this documentation change does not silently rewrite issue scopes. Before any Gateway implementation batch is authorised, the affected issues must be reviewed and classified as (a) Gateway-owned UI/session/conversation/external-adapter work or (b) a dependency on a Konam-owned platform service. Do not implement a second authoritative router, model/tool/workflow registry, execution supervisor, permission/entitlement system, approval manager or platform audit store in Gateway. Any required Konam work must be planned and approved in the Konam repository.
 
 ## Phases
 

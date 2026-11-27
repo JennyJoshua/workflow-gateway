@@ -1,10 +1,12 @@
 # Workflow Registry Specification
 
-> Status: proposed baseline for WG-011 and WG-012. Details require review before becoming final.
+> Status: proposed Gateway integration/consumption contract for WG-011 and WG-012. Details require review before becoming final.
+>
+> **Ownership boundary (owner-confirmed):** Konam owns the authoritative workflow registry, lifecycle, availability, entitlements, discovery and execution admission. This document specifies the capability metadata and discovery/consumption behaviour required by Workflow Gateway; it does not authorise a duplicate Gateway workflow registry or execution database. Gateway displays and forwards requests using permission-filtered results from Konam.
 
 ## Purpose
 
-The workflow registry stores reusable, versioned automations and governs who may discover and run them. It is one part of the platform's broader capability architecture, alongside the model registry and plugin/tool registry.
+Konam's authoritative workflow registry stores reusable, versioned automations and governs who may discover and run them. Workflow Gateway consumes the permission-filtered registry API as part of the customer experience. The model registry and plugin/tool registry are also Konam-owned platform capabilities.
 
 **AI-first, workflow-second:** the registry is not intended to contain a predefined workflow for every possible problem. Direct model reasoning and model-plus-tool solutions are first-class alternatives. Register workflows where recurring execution benefits materially from repeatable steps, triggers, integrations, business rules, approvals, monitoring or auditability.
 

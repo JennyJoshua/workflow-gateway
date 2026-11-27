@@ -21,9 +21,9 @@ The platform has three complementary capabilities:
 
 1. **AI Intelligence:** connected AI models solve suitable problems dynamically without requiring a predefined workflow.
 2. **Workflow Automation:** reusable workflows handle recurring tasks that benefit from consistent execution, triggers, integrations, business rules, approvals and monitoring.
-3. **Workflow Gateway:** an intelligent decision and coordination layer assesses the request and selects direct AI, external tools, an existing workflow, or an authorised combination.
+3. **Konam Capability Router:** Konam's internal, model-agnostic decision and coordination capability assesses the request and selects direct AI, authorised external tools, an existing workflow, or a governed combination. The separate Workflow Gateway application provides the customer-facing conversational experience and external REST/OpenAPI/MCP access boundary.
 
-For each request, Workflow Gateway should progressively assess:
+For each request, the Konam Capability Router should progressively assess:
 
 - Can AI solve this directly?
 - Does the task require external tools, data or integrations?
@@ -40,10 +40,10 @@ The default is the simplest safe and suitable capability—not a workflow-first 
 - **Capability-based routing:** decisions consider task fit, confidence, context, sensitivity, risk, freshness, cost, latency, availability, entitlement and user/organisation policy.
 - **Tool use:** use external tools when the request requires current information, external data, computation or actions beyond model-only reasoning.
 - **Workflow suitability:** reserve workflows for recurring or operationally governed tasks; do not populate the registry with one-off tasks or thin wrappers around general reasoning.
-- **No automatic workflow proliferation:** an unmatched request does not automatically trigger workflow creation. The Gateway may recommend a separate assessment when a recurring need is evidenced.
-- **Human approval:** approval is independent of route selection and enforced server-side for high-risk or policy-controlled actions. AI reasoning or client confirmation cannot grant permission.
-- **Explainability and audit:** record the selected route, concise rationale, capability steps and approval outcomes without unnecessarily retaining sensitive content.
-- **Shared governance:** all routes and multi-step plans use the same authentication, authorisation, tenant, entitlement, audit and approval controls.
+- **No automatic workflow proliferation:** an unmatched request does not automatically trigger workflow creation. Konam may recommend a separate workflow-development assessment when a recurring need is evidenced; Gateway may present that recommendation.
+- **Human approval:** Konam owns approval policy and enforcement for high-risk or policy-controlled actions. AI reasoning, Gateway UI state or client confirmation cannot grant permission.
+- **Explainability and audit:** Konam records the authoritative selected route, concise rationale, capability steps and approval outcomes without unnecessarily retaining sensitive content; Gateway presents safe explanations and propagates correlation IDs.
+- **Shared governance:** Gateway provides the customer and external-client access boundary; Konam provides authoritative platform identity, authorisation, tenant, entitlement, execution, audit and approval controls.
 
 ## Consequences
 

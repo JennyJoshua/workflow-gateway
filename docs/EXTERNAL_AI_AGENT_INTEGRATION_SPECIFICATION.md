@@ -4,37 +4,38 @@
 
 ## 1. Purpose and design decision
 
-Workflow Gateway should expose selected, authorised workflow capabilities to external AI assistants, agents and applications through standard interfaces. The platform remains the system of record for workflow discovery, permissions, execution, approvals, status, results and audit.
+Workflow Gateway is the external access boundary for AI assistants, agents and applications. It exposes stable REST/OpenAPI and inbound MCP interfaces, then forwards authenticated, scoped requests to the versioned Konam platform API. Konam is the system of record and authority for capability discovery, platform identity/permissions, routing, execution, approvals, task status, results, usage and audit.
 
-**Decision proposed:** provide two interface adapters over the same application backend and workflow execution services:
+**Decision proposed:** provide two Gateway-side interface adapters over a single integration layer to Konam's governed platform services:
 
 1. A versioned REST API described by OpenAPI.
 2. A remote MCP server adapter that presents approved Workflow Gateway capabilities as MCP tools.
 
-These are interface layers, not separate orchestration engines, registries, job systems or permission stores. Internal chat, REST clients and MCP clients must converge on the same application services and policy enforcement.
+These are interface layers, not separate orchestration engines, registries, job systems or permission stores. Gateway's internal chat, REST clients and MCP clients must converge on the same Gateway-to-Konam integration contract. Konam performs authoritative policy enforcement and execution.
 
 ## 2. Terminology and integration direction
 
 There are two different MCP directions and they must not be conflated:
 
-- **Outbound MCP client integration:** Workflow Gateway connects to third-party MCP servers to consume their tools. This is already in the plugin/tool integration direction and is covered by WG-021.
+- **Outbound MCP client integration:** the Konam platform connects to approved third-party MCP servers to consume their tools through Konam-governed adapters. Workflow Gateway may provide customer-facing configuration and status interfaces, but does not own the authoritative tool registry or invoke these platform tools directly. This is covered by the cross-repository integration boundary and the relevant Konam/Gateway backlog items.
 - **Inbound MCP server exposure:** an external assistant connects to Workflow Gateway's MCP endpoint and consumes our registered workflows as tools. This is the additional capability specified here.
 
 The same platform may support both directions through adapters, but each connection has its own trust boundary, identity, permissions and audit events.
 
 ## 3. Logical architecture
 
-External clients connect to a REST or MCP adapter at the application boundary. The adapter authenticates the caller, resolves the authorised principal and workspace context, validates request schemas, then calls shared backend services:
+External clients connect to a REST or MCP adapter at the Workflow Gateway boundary. The adapter authenticates the external client/user at the edge, validates request schemas and forwards an appropriately scoped request to the Konam platform API. Konam then performs:
 
-- Workflow catalogue and capability discovery.
-- Lifecycle, availability and entitlement checks.
-- Workflow execution admission and durable job handling.
-- Human approval manager.
-- Execution status, event and result services.
-- Secure file-reference service.
-- Usage metering, rate limits and audit.
+- Authoritative identity, workspace, membership, role and entitlement validation.
+- Capability and workflow discovery, filtered by current permissions.
+- Routing and policy evaluation.
+- Workflow/tool/model execution admission and durable task supervision.
+- Human approval decisions and enforcement.
+- Canonical task status, events and result services.
+- Permission-checked file-reference resolution.
+- Platform usage metering, limits and audit.
 
-No external interface may call workflow endpoints or workers directly while bypassing these controls. The adapter must not implement a parallel workflow registry or execution engine.
+No external interface may call workflow engines, model providers or workers directly while bypassing Konam. Gateway must not implement a parallel workflow registry, authoritative permission store, routing engine or execution supervisor.
 
 ## 4. REST API and OpenAPI
 
@@ -67,7 +68,7 @@ Discovery must return only workflows that pass lifecycle, availability, entitlem
 
 ### 4.3 Execution request and response
 
-An execution request should identify the workflow and version, provide schema-valid inputs, and carry an idempotency key. The server derives the authoritative principal, tenant/workspace context, permissions and approval policy from authenticated server-side context; client-supplied identity or workspace values are selectors only and must be independently checked.
+An execution request should identify the workflow and version, provide schema-valid inputs, and carry an idempotency key. Konam derives and validates the authoritative principal, tenant/workspace context, permissions and approval policy from trusted server-side identity context; client-supplied identity or workspace values are selectors only and must be independently checked.
 
 The acknowledgement should contain an execution ID, accepted/queued status, status URL and whether human approval is pending. Synchronous completion may return a result directly only where the workflow contract and timeout policy allow it. Long-running work returns an acknowledgement and is polled or receives a supported event/callback notification.
 
@@ -129,7 +130,7 @@ Default deny. A token or grant must not gain broader access because a model requ
 
 ## 7. Approval and execution governance
 
-External invocation must use the existing approval manager and action-bound approval model. The platform, not the assistant, decides whether approval is required. Client-side confirmation, model reasoning, MCP tool annotations or a previous unrelated approval are not substitutes for a valid platform approval.
+External invocation must use Konam's approval manager and action-bound approval model. Konam, not Gateway or the assistant, decides whether approval is required. Client-side confirmation, model reasoning, MCP tool annotations or a previous unrelated approval are not substitutes for a valid platform approval.
 
 For high-risk or irreversible actions:
 - record the exact action, target, parameters, data scope and workflow version in the approval context;
@@ -144,7 +145,7 @@ REST and MCP clients must use the same durable execution state machine and idemp
 
 Initial support should use execution acknowledgement plus status polling. Signed callbacks or streaming notifications may be added where justified, with source authentication, replay protection, bounded payloads and safe egress rules.
 
-Workflow chaining should initially be orchestrated by the existing Workflow Gateway planner/execution supervisor. External agents may submit a multi-step request only through a defined, policy-checked plan contract; they must not obtain unrestricted internal workflow-to-workflow privileges. Each step is independently authorised, metered and audited, with approval gates applied at the relevant action boundary.
+Workflow chaining and execution supervision are owned by Konam's Capability Router and execution services. External agents may submit a multi-step goal only through a defined, policy-checked request contract; they must not obtain unrestricted internal workflow-to-workflow privileges. Each step is independently authorised, metered and audited by Konam, with approval gates applied at the relevant action boundary.
 
 ## 9. Results and generated files
 
@@ -198,7 +199,7 @@ If a client cannot meet the platform's authentication or permission requirements
 | WG-030 Security/pilot testing | REST/OpenAPI and MCP contract, auth, abuse, data-leakage and compatibility tests |
 | WG-031 External-agent architecture | Owns this design and cross-issue traceability |
 
-Do not create duplicate authentication, workflow discovery, queue, approval, registry or audit subsystems.
+Do not create duplicate authoritative authentication/authorisation, capability discovery, queue/task supervision, approval, registry, execution or audit subsystems in Workflow Gateway. Gateway retains its customer-facing session and conversation history responsibilities; Konam owns platform identity and canonical execution/governance records.
 
 ## 13. Sequencing and release boundaries
 
@@ -225,7 +226,17 @@ This does not change the MVP milestone order or authorise implementation ahead o
 
 All decisions remain proposed until separately reviewed and accepted. No endpoint, OAuth client, MCP server, secret, database migration or external connection is created by this specification.
 
-## 15. Review and status
+## 15. Cross-repository ownership boundary
+
+- Workflow Gateway owns customer conversations and messages, external client registration/presentation at its edge, REST/OpenAPI and inbound MCP adapters, request translation, and user-facing status/result presentation.
+- Konam owns authoritative platform identity and workspace permissions, entitlements, capability/model/tool/workflow registries, request routing, execution, approvals, canonical task records, usage and platform audit.
+- Gateway-to-Konam calls use the versioned authenticated Konam API. The user identity and Gateway service identity remain distinguishable; Konam validates the delegated context and re-authorises consequential steps.
+- Gateway must not call model providers or workflow engines directly for platform tasks, maintain a competing authoritative registry, or bypass Konam policy.
+- Gateway owns canonical conversation/message history. Konam retains only the minimum task context or references needed for execution and governance. Define coordinated retention, export and deletion before implementation.
+
+See the [Konam cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
+
+## 16. Review and status
 
 - Tracking issue: WG-031.
 - Document status: proposed planning baseline.
