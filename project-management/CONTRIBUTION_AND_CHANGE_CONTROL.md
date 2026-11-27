@@ -36,6 +36,10 @@ Routine documentation and repository setup within an approved handover are autho
 - Issues are not assigned to people without authorisation.
 - Labels: `priority:*`, `type:*`, `phase:*` are applied to every issue.
 
+## Main branch protection
+
+The proposed protection policy is documented in [Branch Protection Proposal](BRANCH_PROTECTION_PROPOSAL.md). It is not enabled. The owner must explicitly approve the exact settings before any GitHub branch-protection or ruleset changes are made. The proposal accounts for the current single-maintainer arrangement and the absence of validated CI status checks.
+
 ## Security rules
 
 - No secrets, keys or customer data in the repository (see .gitignore and docs/SECURITY_AND_GOVERNANCE.md).

@@ -30,7 +30,7 @@ Do not create or publish a workflow automatically because discovery returned no 
 
 The default is **AI-first, workflow-second**, not workflow-first. Select the simplest safe and suitable route based on task fit. A workflow is preferred only when its repeatability, integration, business rules, consistency or governance provide a real advantage for the current request.
 
-Policy modes may be configurable per organisation and user within platform guardrails: balanced/automatic (default), model-preferred, workflow-preferred, or manual selection. A preference influences selection but cannot bypass availability, entitlements, permissions, safety controls or approval gates. Exact policy modes require validation before implementation.
+Policy modes may be configurable per workspace (personal or organisation) and user within platform guardrails: balanced/automatic (default), model-preferred, workflow-preferred, or manual selection. A preference influences selection but cannot bypass availability, entitlements, permissions, safety controls or approval gates. Exact policy modes require validation before implementation.
 
 Decision factors: capability fit, confidence, data sensitivity, risk, task repeatability, required integrations, model/tool/workflow availability, cost, latency, freshness, entitlement, customer policy and approval requirements.
 

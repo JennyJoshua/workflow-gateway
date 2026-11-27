@@ -2,6 +2,10 @@
 
 > Status: planning. Controls below are requirements for future implementation. The formal threat model is WG-003.
 
+## Formal threat model
+
+The detailed design-time analysis, trust boundaries, STRIDE and AI-specific threats, mitigation mapping, approval policy and tabletop scenarios are documented in [Security Threat Model](SECURITY_THREAT_MODEL.md). It is a draft for review; controls are requirements, not implemented guarantees. WG-003 remains open until the owner/reviewer accepts the document and its acceptance criteria are verified.
+
 ## Security principles
 
 Default deny; least privilege; defense in depth; tenant isolation everywhere; secrets never in code, logs or clients; every sensitive action audited; humans approve high-risk actions.
@@ -12,19 +16,9 @@ Default deny; least privilege; defense in depth; tenant isolation everywhere; se
 - Role-based permissions (owner, admin, member) enforced server-side; entitlements gate workflows, models and tools.
 - Authorisation is checked at discovery, routing and execution, not only in the interface.
 
-## External AI agents and application access
-
-External assistants and applications are separate security principals from ordinary signed-in users and from model-provider credentials (BYOK). The platform must authenticate the external client, establish any delegated human/workspace context, and enforce explicit, revocable scopes on every operation.
-
-For interactive delegated access, evaluate OAuth 2.1 authorisation-code flow with PKCE. For trusted non-interactive integrations, evaluate a separately provisioned machine identity and narrowly scoped service-to-service credentials. Do not assume every assistant supports every grant; client compatibility must be verified. API keys, if retained for a specific compatibility case, must be high-entropy, scoped, revocable, rate-limited, shown once and stored securely. BYOK keys are not external-agent credentials.
-
-Authentication does not imply permission to discover or execute every workflow. Default deny; enforce workflow, operation, data-scope and workspace boundaries at discovery, execution, status, result and file retrieval. Record the external client and represented user where delegation applies. Revocation, entitlement changes and membership changes must be rechecked for long-running and consequential operations.
-
-REST/OpenAPI and inbound MCP interfaces must reuse the same backend authorisation, approval, execution and audit services. The inbound MCP server (external assistants consume our workflows) is distinct from outbound MCP client integrations (our platform consumes third-party tools). See [External AI Agent Integration Specification](EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md) and WG-031.
-
 ## Tenant isolation
 
-Organisation identifier on all tenant-owned data, enforced in the application and (proposed) at the database layer. Cross-tenant access must be provably impossible in tests (WG-023, WG-030).
+`workspace_id` on all tenant-owned data (personal and organisation workspaces), enforced in the application and (proposed) at the database layer. `organisation_id` is additionally used where an organisation relationship applies. Cross-workspace access must be provably denied in tests (WG-023, WG-030). See the [Database Specification](DATABASE_SPECIFICATION.md).
 
 ## BYOK and secrets
 
@@ -44,7 +38,7 @@ Execution pauses for human approval when policy flags an action as high risk, fo
 
 ## Monitoring and audit logs
 
-Audit log is append-only and records authentication events, permission changes, registry lifecycle transitions, routing decisions, approvals, credential access and configuration changes. External-client registration, delegated consent, scope grants/revocation, discovery, execution, result/file access, denials and rate-limit events must also be auditable. Monitoring covers errors, latency, cost and abuse signals.
+Audit log is append-only and records authentication events, permission changes, registry lifecycle transitions, routing decisions, approvals, credential access and configuration changes. Monitoring covers errors, latency, cost and abuse signals.
 
 ## Usage metering and future commercialisation
 
@@ -63,6 +57,6 @@ Public repository: no secrets, credentials or customer data may be committed. `.
 
 ## Not authorised in the current phase
 
-Application code; Supabase provisioning; Render deployment; paid service configuration; production secrets; customer account connection; database migrations; external workflow integrations; public REST API or MCP deployment. WG-031 is planning and documentation only.
+Application code; Supabase provisioning; Render deployment; paid service configuration; production secrets; customer account connection; database migrations; external workflow integrations.
 
 See also: [Technical Architecture](TECHNICAL_ARCHITECTURE.md), [Contribution and Change Control](../project-management/CONTRIBUTION_AND_CHANGE_CONTROL.md).

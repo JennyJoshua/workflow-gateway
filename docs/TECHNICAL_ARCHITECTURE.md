@@ -79,15 +79,25 @@ Each will be assessed in an ADR (WG-002). Free-first development is preferred; n
 
 Routing is based on task fit, model capability, tool requirements, workflow suitability, confidence, data sensitivity, risk, cost, latency, availability, entitlement, user/organisation policy and approval requirements. No route may bypass permissions or human approval.
 
-## Database entities (initial proposal; WG-004 finalises)
+## Database entities (proposed baseline; WG-004 specification)
 
 organisations, users, memberships, conversations, messages, models, model_capabilities, workflows, workflow_versions, plugins, tools, routing_policies, routing_decisions, plans, plan_steps, executions, execution_events, approvals, credentials (encrypted payload or secret reference only), usage_events, audit_logs, entitlements.
 
-Every tenant-owned entity carries an organisation identifier. Row-level security is a proposed enforcement layer requiring validation. These are conceptual entities, not an approved schema or migration plan.
+The detailed logical schema, relationships, constraints, indexes, workspace tenancy, RLS coverage, retention, deletion, export and recovery requirements are defined in [Database Specification](DATABASE_SPECIFICATION.md). The universal tenant key is `workspace_id`, covering both personal and organisation workspaces; `organisation_id` is additionally used where an organisation relationship applies. This resolves the limitation of using an organisation identifier as the tenant key for personal workspaces.
+
+The database specification is a planning artifact only. PostgreSQL is the logical reference; Supabase remains a proposed candidate. No database has been provisioned and no migrations have been created or run.
 
 ## Observability
 
 Structured logs without sensitive content, execution events, metrics and traces; audit logs are append-only. Record the chosen route and concise rationale, the capabilities invoked, policy/approval decisions, and outcome. See [Security and Governance](SECURITY_AND_GOVERNANCE.md).
+
+## Security threat model
+
+The design-time threat analysis and trust-boundary data-flow diagram are maintained in [Security Threat Model](SECURITY_THREAT_MODEL.md). It identifies security controls that must be implemented and verified; it does not claim that the logical architecture is already secure in operation.
+
+## Architecture decisions and review proposals
+
+The ADR register is maintained in [docs/decisions/README.md](decisions/README.md). ADR-001 records the four owner-approved product directions. ADR-003 through ADR-012 are **proposed technology and cross-cutting architecture assessments only**; none is an accepted technology decision. The independent review refinements are recorded separately in [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) and require owner review before they become binding requirements.
 
 ## Constraints
 
