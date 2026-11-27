@@ -53,8 +53,8 @@ First code batch, only after the planning batch is reviewed and the owner approv
 
 ## Resolve before development begins
 
-- Licence decided: proprietary, all rights reserved (27 November 2026). Repository visibility (currently public) still needs explicit owner confirmation.
-- ADR validation: Supabase, Render, LiteLLM, MCP and Next.js reviewed in the [Technology Validation Report](TECHNOLOGY_VALIDATION_REPORT.md); FastAPI and LangGraph spikes outstanding.
+- Licence decided: proprietary, all rights reserved (27 November 2026). Repository visibility: public for now (owner-confirmed 27 November 2026; revisit before commercial release).
+- ADR validation: Supabase, Render, FastAPI, LiteLLM, MCP and Next.js reviewed in the [Technology Validation Report](TECHNOLOGY_VALIDATION_REPORT.md); LangGraph spike outstanding. ADR-005 accepted with conditions on 27 November 2026.
 - Threat model reviewed (WG-003) and approval-gate triggers agreed.
 - Database specification reviewed (WG-004), including tenancy and RLS approach.
 - Owner approval of the first implementation handover and of any service accounts to be created.
