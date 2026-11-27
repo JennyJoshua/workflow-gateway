@@ -17,7 +17,7 @@ These are interface layers, not separate orchestration engines, registries, job 
 
 There are two different MCP directions and they must not be conflated:
 
-- **Outbound MCP client integration:** Workflow Gateway connects to third-party MCP servers to consume their tools. This is already in the plugin/tool integration direction and is covered by WG-021.
+- **Outbound MCP client integration:** the Konam platform connects to approved third-party MCP servers to consume their tools through Konam-governed adapters. Workflow Gateway may provide customer-facing configuration and status interfaces, but does not own the authoritative tool registry or invoke these platform tools directly. This is covered by the cross-repository integration boundary and the relevant Konam/Gateway backlog items.
 - **Inbound MCP server exposure:** an external assistant connects to Workflow Gateway's MCP endpoint and consumes our registered workflows as tools. This is the additional capability specified here.
 
 The same platform may support both directions through adapters, but each connection has its own trust boundary, identity, permissions and audit events.
