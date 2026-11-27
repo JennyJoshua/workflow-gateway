@@ -6,7 +6,7 @@ Workflow Gateway is an AI-powered problem-solving and workflow execution platfor
 
 ## What it is
 
-Customers describe the problem or outcome they need. Workflow Gateway determines the most suitable way to help: direct AI reasoning, AI with external tools, an existing reusable workflow, or a recommendation to develop a new workflow when a recurring need justifies one. Human approval is enforced wherever policy or risk requires it.
+Customers describe the problem or outcome they need through Workflow Gateway. The Gateway submits the request to the Konam Automation Platform, whose internal Konam Capability Router determines the most suitable handling path: direct AI reasoning, AI with authorised external tools, an existing reusable workflow, or a recommendation to assess a recurring unmet need. Konam enforces platform permissions, execution policy and human approvals.
 
 ## Foundational principle: AI-first, workflow-second
 
@@ -16,7 +16,7 @@ The platform has three complementary capabilities:
 
 1. **AI Intelligence** — connected, model-agnostic AI capabilities solve suitable problems dynamically without requiring a predefined workflow.
 2. **Workflow Automation** — reusable workflows provide consistent, governed execution for recurring or operational tasks.
-3. **Workflow Gateway** — the intelligent decision and coordination layer selects between direct AI, external tools, existing workflows, or a proposal to develop a new workflow, while enforcing permissions and human approvals.
+3. **Konam Capability Router** — Konam's internal, model-agnostic decision and coordination capability selects between direct AI, authorised tools, existing workflows or a recommendation for workflow-development assessment, subject to Konam policy and approvals. The separate Workflow Gateway application is the customer-facing conversational and external-access layer.
 
 The default decision principle is to use the simplest safe and suitable capability, not to prefer workflows merely because they exist. This supersedes the earlier workflow-first routing default recorded in ADR-001; see [ADR-002](docs/decisions/ADR-002-AI-FIRST-WORKFLOW-SECOND.md).
 
@@ -33,15 +33,15 @@ Businesses otherwise juggle many AI models, plugins and automation tools, each w
 | Reusable workflows | Repeatable, governed execution for recurring tasks | Workflow registry |
 | Internal agents | Optional specialist capabilities where justified | Internal capability interfaces |
 
-The orchestration layer may use one capability or combine several in a multi-step plan, subject to customer policy, entitlements and human approval gates. A new workflow is a development recommendation, not an automatic response to every unmatched request.
+Konam's orchestration layer may use one capability or combine several in a multi-step plan, subject to tenant policy, entitlements and human approval gates. A new workflow is a development recommendation, not an automatic response to every unmatched request.
 
 ## Architecture at a glance
 
 1. **Customer interface** — responsive conversational experience.
-2. **Application backend** — authentication, tenancy, conversations, permissions.
-3. **Central orchestration and decision layer** — intent understanding, capability assessment, model/tool/workflow selection, execution supervision and quality review.
-4. **Capability registries** — models, tools/plugins and reusable workflows, each with distinct lifecycle and governance.
-5. **Execution adapters and external interfaces** — model providers, external tools, workflow APIs, GitHub Apps and Actions, MCP clients/servers, third-party APIs and internal capabilities. External assistants use versioned REST/OpenAPI or inbound MCP adapters over the same governed services.
+2. **Gateway application backend** — customer sessions, canonical conversation history, presentation state and edge request validation.
+3. **Konam platform API and control plane** — authoritative identity, workspace membership, permissions, entitlements, policy, task records and audit.
+4. **Konam Capability Router and registries** — internal request assessment, model/tool/workflow selection, capability registries and execution supervision.
+5. **Konam execution and governance services** — authorised adapters, workflow execution, approvals, usage and platform audit. Gateway's external REST/OpenAPI/MCP adapters call these services through the versioned Konam API.
 
 Technology choices are **proposed and require validation**. See [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md).
 
