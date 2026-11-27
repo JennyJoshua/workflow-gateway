@@ -16,7 +16,7 @@ Default deny; least privilege; defense in depth; tenant isolation everywhere; se
 
 ## Customer authentication and permissions
 
-- Authentication provider is a proposed candidate (for example Supabase Auth) requiring validation and owner approval.
+- Gateway user authentication must federate with Konam's OIDC-backed platform identity authority using the agreed delegated identity contract. The concrete provider and token-exchange flow remain unselected and require validation; do not establish a competing Gateway platform identity provider.
 - Gateway may enforce UI/session access controls, but Konam owns authoritative workspace roles, membership and entitlements; entitlements gate platform capabilities.
 - Konam checks platform authorisation at discovery, routing and execution, not only in the interface. Gateway performs edge checks as defence in depth.
 
