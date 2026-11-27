@@ -1,6 +1,6 @@
 # First Implementation Handover (Proposal, revised for the Konam boundary)
 
-> Status: **proposed, not authorised.** No application code may be written until the owner approves this revised handover and the gates in section 5 are cleared. This revision supersedes the earlier version, which assumed Workflow Gateway would build accounts and a model-provider layer. That conflicts with the owner-confirmed ownership boundary in the [Technical Architecture](../docs/TECHNICAL_ARCHITECTURE.md) and the [Konam cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
+> Status: **classification and ADR clarifications confirmed by the owner on 27 November 2026; implementation still not authorised.** No application code may be written until the owner approves this revised handover and the gates in section 5 are cleared. This revision supersedes the earlier version, which assumed Workflow Gateway would build accounts and a model-provider layer. That conflicts with the owner-confirmed ownership boundary in the [Technical Architecture](../docs/TECHNICAL_ARCHITECTURE.md) and the [Konam cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
 
 ## 1. Why this was revised
 
@@ -54,7 +54,7 @@ These ADRs were accepted before the boundary was applied to them. They are **not
 - [ ] Gateway-to-Konam API contract drafted and approved in the Konam repository.
 - [ ] Identity provider and token flow decided.
 - [ ] Conversation retention, export and deletion defined.
-- [ ] Classification in section 2 confirmed by the owner, and the ADR reconciliations in section 4 decided.
+- [x] Classification in section 2 confirmed by the owner, and the ADR reconciliations in section 4 decided to be applied (27 November 2026).
 
 ## 6. Environment
 
