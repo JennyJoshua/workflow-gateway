@@ -2,6 +2,10 @@
 
 > Status: planning. Controls below are requirements for future implementation. The formal threat model is WG-003.
 
+## Cross-repository security authority
+
+Workflow Gateway is the customer-facing access boundary. It performs edge authentication, request validation, session protection and defence-in-depth checks. Konam is authoritative for platform identity, workspace membership, roles, entitlements, routing policy, capability permissions, execution-time authorisation, approvals and platform audit. Gateway must forward verifiable user/service identity context to Konam and must not treat client-supplied workspace IDs, roles or entitlements as proof of authority. No direct Gateway-to-Konam database access is permitted; use the versioned authenticated Konam API.
+
 ## Formal threat model
 
 The detailed design-time analysis, trust boundaries, STRIDE and AI-specific threats, mitigation mapping, approval policy and tabletop scenarios are documented in [Security Threat Model](SECURITY_THREAT_MODEL.md). It is a draft for review; controls are requirements, not implemented guarantees. WG-003 remains open until the owner/reviewer accepts the document and its acceptance criteria are verified.
@@ -13,8 +17,8 @@ Default deny; least privilege; defense in depth; tenant isolation everywhere; se
 ## Customer authentication and permissions
 
 - Authentication provider is a proposed candidate (for example Supabase Auth) requiring validation and owner approval.
-- Role-based permissions (owner, admin, member) enforced server-side; entitlements gate workflows, models and tools.
-- Authorisation is checked at discovery, routing and execution, not only in the interface.
+- Gateway may enforce UI/session access controls, but Konam owns authoritative workspace roles, membership and entitlements; entitlements gate platform capabilities.
+- Konam checks platform authorisation at discovery, routing and execution, not only in the interface. Gateway performs edge checks as defence in depth.
 
 ## Tenant isolation
 
