@@ -11,7 +11,7 @@ Workflow Gateway is the external access boundary for AI assistants, agents and a
 1. A versioned REST API described by OpenAPI.
 2. A remote MCP server adapter that presents approved Workflow Gateway capabilities as MCP tools.
 
-These are interface layers, not separate orchestration engines, registries, job systems or permission stores. Gateway's internal chat, REST clients and MCP clients must converge on the same Gateway-to-K onam integration contract. Konam performs authoritative policy enforcement and execution.
+These are interface layers, not separate orchestration engines, registries, job systems or permission stores. Gateway's internal chat, REST clients and MCP clients must converge on the same Gateway-to-Konam integration contract. Konam performs authoritative policy enforcement and execution.
 
 ## 2. Terminology and integration direction
 
