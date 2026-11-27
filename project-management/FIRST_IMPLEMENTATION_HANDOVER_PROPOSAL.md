@@ -1,63 +1,76 @@
-# First Implementation Handover (Proposal)
+# First Implementation Handover (Proposal, revised for the Konam boundary)
 
-> Status: **proposed, not authorised.** No application code may be written until the owner approves this handover and the gates below are cleared. Nothing in this document provisions a service, adds a workflow or changes an approved decision.
+> Status: **classification and ADR clarifications confirmed by the owner on 27 November 2026; implementation still not authorised.** No application code may be written until the owner approves this revised handover and the gates in section 5 are cleared. This revision supersedes the earlier version, which assumed Workflow Gateway would build accounts and a model-provider layer. That conflicts with the owner-confirmed ownership boundary in the [Technical Architecture](../docs/TECHNICAL_ARCHITECTURE.md) and the [Konam cross-repository integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md).
 
-## 1. Purpose
+## 1. Why this was revised
 
-Define the smallest first code batch that is consistent with the roadmap, the approved direction (ADR-001, ADR-002) and the proposed standards, so the owner can approve, amend or reject it.
+The roadmap requires every affected issue to be reviewed and classified as **(a) Gateway-owned** or **(b) a dependency on a Konam-owned platform service** before any Gateway implementation batch is authorised. Gateway owns the customer chat experience, canonical conversation and message history, UI/session state, the external REST/OpenAPI and MCP edge adapters, and the client for the Konam API. Konam owns platform identity, workspaces, membership, roles and entitlements, the model/provider, tool and workflow registries, routing, execution, approvals, usage and platform audit. Gateway must not build a second control plane and must not share a database with Konam.
 
-## 2. Proposed batch
+## 2. Proposed classification of the M1 issues (owner to confirm)
 
-| Order | Issue | Outcome |
-|---|---|---|
-| 1 | WG-007 Authentication and user accounts | Sign-up and sign-in; a personal workspace created per user; roles owner, admin and member enforced server-side ([ADR-010](decisions/ADR-010-PERSONAL-AND-ORGANISATION-TENANCY.md)) |
-| 2 | WG-008 Conversation and message management | Conversations and messages scoped by `workspace_id`; soft delete; retention rules from the [database specification](DATABASE_SPECIFICATION.md) |
-| 3 | WG-009 Model provider abstraction | Provider-neutral interface with a **stub provider** for tests; no live provider keys |
-| 4 | WG-006 Responsive chat interface | Chat UI against the above, after the backend contracts are reviewed |
+| Issue | As written | Proposed classification | What Gateway builds |
+|---|---|---|---|
+| WG-006 Responsive chat interface | Chat UI | **Gateway-owned** | The interface, against the Gateway API |
+| WG-007 Authentication and user accounts | Sign-up, sign-in, personal workspace | **Mostly a Konam dependency** | Edge authentication only: validate Konam-issued OIDC identity and tokens, session handling. **No user store, no membership, no workspace creation.** |
+| WG-008 Conversation and message management | Conversations and messages by `workspace_id` | **Gateway-owned** | Canonical conversation and message storage and API. Workspace identifiers are references supplied by validated identity, never proof of authority. |
+| WG-009 Model provider abstraction | Provider-neutral model interface | **Konam dependency** | A Konam API client interface with a stub for tests. Gateway holds no provider credentials and makes no provider calls. |
 
-WG-011 (workflow metadata contract) may proceed in parallel as a design task. BYOK (WG-020), routing (WG-014), workflows and external interfaces are **out of scope** for this batch.
+The issue texts are **not** rewritten by this proposal. Rewriting them is a change-control decision for the owner.
 
-## 3. Entry gates (all require the owner)
+## 3. Proposed sequence
 
-- [x] Licence decision recorded: proprietary, all rights reserved (27 November 2026).
-- [ ] Acceptance of the ADRs this batch depends on: ADR-003 (database and authentication), ADR-006 (interface) and ADR-010 (tenancy) accepted 27 November 2026; **ADR-005 (backend) awaits the FastAPI spike**; ADR-007 optional.
-- [ ] Threat model and database specification reviewed and accepted.
-- [x] Branch protection approved and enabled on `main` (27 November 2026).
-- [x] CI approach in the standards approved by the owner (27 November 2026); each workflow still arrives in its own reviewed pull request.
-- [ ] Confirmation that no paid service is authorised for this batch.
-- [ ] Approval of the repository layout (section 4).
+**Batch 0: design, no application code (needs owner approval of each item)**
+1. Re-baseline the [database specification](../docs/DATABASE_SPECIFICATION.md) to Gateway-owned storage only (conversations, messages, UI/session state, opaque Konam references). Its own ownership update makes this a precondition for completing WG-004.
+2. Draft the Gateway-to-Konam API contract (submit request, retrieve request, retrieve events, cancel, submit approval decision, discover capabilities). Konam owns the schema, so this is planned and approved in the Konam repository.
+3. Decide the identity provider and token flow (open decision 1 in the integration specification).
+4. Define conversation retention, export and deletion (open decision 2).
+5. Owner confirms or amends the classification in section 2.
 
-## 4. Proposed layout (to be confirmed by the ADRs)
+**Batch 1: first Gateway code, only after Batch 0**
+1. Scaffold `apps/api` and CI, with pinned versions (ADR-005 conditions).
+2. WG-008: Gateway-owned conversations and messages on the re-baselined schema.
+3. Konam API client interface and a stub; correlation IDs and the stable error envelope from the integration specification.
+4. WG-007 (reduced): edge token validation against a test identity provider.
+5. WG-006: the chat interface.
 
-A single repository with `apps/api` (backend), `apps/web` (interface), `packages/` (shared contracts), `db/` (reviewed SQL migrations, applied only to disposable databases in CI) and the existing `docs/`. The OpenAPI contract in `api/openapi/v1.yaml` stays a planning artefact and is not implemented in this batch.
+## 4. Reconciliations needed for already-accepted ADRs
 
-## 5. Environment
+These ADRs were accepted before the boundary was applied to them. They are **not** edited here; the owner decides.
 
-- Tests run in CI against an ephemeral Postgres container ([validation report](TECHNOLOGY_VALIDATION_REPORT.md)).
-- No Supabase project, Render service, hosted database or production secret is created. Hosted migrations remain forbidden without owner approval.
-- Authentication in tests uses a local test identity provider or signed test tokens, never real accounts.
+- **ADR-003 (Supabase for database and authentication):** the architecture limits Supabase to a candidate for **Gateway-owned conversation data only**. Supabase Auth must not become the platform identity, because Konam is authoritative and the identity provider is not yet chosen. Proposed clarification: accept ADR-003 for Gateway data storage only.
+- **ADR-010 (personal and organisation workspace tenancy):** workspace authority and membership belong to Konam. Proposed clarification: Gateway treats workspaces as Konam-issued references and applies isolation by those references, rather than defining or creating workspaces.
 
-## 6. Definition of done
+## 5. Entry gates
 
-As in the [standards](DEVELOPMENT_AND_TESTING_STANDARDS.md), plus for this batch:
+- [x] Licence decided: proprietary, all rights reserved; copyright holder Mavos Solutions (27 November 2026).
+- [x] Repository stays public for now (owner-confirmed 27 November 2026).
+- [x] Branch protection enabled on `main` (27 November 2026).
+- [x] CI approach in the standards approved; each workflow still arrives in its own reviewed pull request.
+- [x] ADR-003, ADR-005, ADR-006 and ADR-010 accepted with conditions (27 November 2026), subject to the reconciliations in section 4.
+- [x] Threat model accepted as the security baseline (27 November 2026).
+- [x] Repository layout approved: `apps/api`, `apps/web`, `packages/`, `db/`.
+- [x] No paid service is authorised for the first batch (owner-confirmed 27 November 2026).
+- [ ] Database specification re-baselined to Gateway-owned scope and reviewed (precondition for WG-004 and any schema).
+- [ ] Gateway-to-Konam API contract drafted and approved in the Konam repository.
+- [ ] Identity provider and token flow decided.
+- [ ] Conversation retention, export and deletion defined.
+- [x] Classification in section 2 confirmed by the owner, and the ADR reconciliations in section 4 decided to be applied (27 November 2026).
 
-- Cross-workspace read, write and delete attempts are tested for every endpoint and fail.
-- Role checks are tested for owner, admin and member.
-- Audit events exist for sign-in, membership change and conversation deletion; logs contain no message content.
-- A contract test covers each new endpoint.
-- Stub provider tests prove no real provider call is made.
+## 6. Environment
 
-## 7. Pull request plan
+- Tests run in CI against an ephemeral Postgres container ([validation report](../docs/TECHNOLOGY_VALIDATION_REPORT.md)); no Supabase project, Render service, hosted database or production secret is created, and hosted migrations remain forbidden without owner approval.
+- Identity in tests uses signed test tokens from a local test identity provider, never real accounts.
+- The Konam API is replaced by a stub that implements the agreed contract.
 
-One pull request per issue, each linked to its issue, each reviewed independently by ChatGPT and merged only on owner approval. The scaffolding and CI pull request comes first and needs the CI approval above.
+## 7. Definition of done
 
-## 8. Risks and open questions
+As in the [standards](../docs/DEVELOPMENT_AND_TESTING_STANDARDS.md), plus:
 
-- Free-tier limits make demos fragile (see the validation report); the pilot needs paid hosting.
-- Region and data-residency choice for the target market is undecided.
-- FastAPI and LangGraph have not been validated; a short spike precedes any dependency on them.
-- ADR-011 (durable queue) must be revisited before WG-016 because free Render cannot run workers.
+- Cross-workspace read, write and delete attempts fail for every endpoint, using Konam-validated references.
+- No code path stores credentials, executes workflows, selects models or makes routing, approval or entitlement decisions.
+- Konam unavailability produces an explicit unavailable state and never falls back to an ungoverned path.
+- Contract tests cover each Gateway endpoint and the Konam client stub.
 
-## 9. Out of scope
+## 8. Out of scope
 
-Workflow execution, routing policy, BYOK, plugins and MCP, billing, marketplace, production deployment, hosted migrations, and any customer data.
+Workflow execution, routing, model and tool registries, approval decisions, BYOK and credential storage, platform audit, billing, marketplace, production deployment, hosted migrations and customer data.
