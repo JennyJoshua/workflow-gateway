@@ -1,6 +1,6 @@
 # Development and Testing Standards
 
-> Status: **proposed** (WG-005). Planning document: it governs future implementation work and authorises none. Tooling named below is a **candidate that requires validation** (see the technology ADRs under WG-002); nothing here provisions a service or adds a workflow. The owner must approve the CI approach before any workflow file is added.
+> Status: **proposed** (WG-005); the CI approach in section 6 was approved by the owner on 27 November 2026. Planning document: it governs future implementation work and authorises none. Tooling named below is a **candidate that requires validation** (see the technology ADRs under WG-002); nothing here provisions a service or adds a workflow. The owner must approve the CI approach before any workflow file is added.
 
 ## 1. Principles
 
@@ -12,7 +12,7 @@
 
 ## 2. Branching and pull requests
 
-- `main` is the only long-lived branch. Direct pushes to `main` are not part of the workflow; **the owner approves every merge to `main`**. Enabling branch protection is proposed separately and needs owner approval.
+- `main` is the only long-lived branch. Direct pushes to `main` are not part of the workflow; **the owner approves every merge to `main`**. Branch protection on `main` was enabled on 27 November 2026 with owner approval.
 - Branch names: `<type>/<issue-id>-<short-slug>`, for example `feat/wg-008-conversations`, `fix/wg-014-routing-fallback`, `docs/wg-005-standards`. Types: `feat`, `fix`, `docs`, `test`, `chore`, `security`.
 - One pull request per issue where practical. The title starts with the issue ID, for example `WG-008: implement conversation management`. Link the issue; do not use closing keywords until the owner has accepted the work.
 - Commit messages: imperative, present tense, issue ID in the body or title. No secrets, tokens or customer data in commits, diffs, screenshots or logs.
@@ -73,9 +73,9 @@ Rules:
 - Track evaluation results over time; a drop beyond an agreed threshold blocks the change. Thresholds are set by the owner on advice of the reviewer.
 - Assertions on model output check structure and constraints, not exact wording.
 
-## 6. Continuous integration (proposed, requires owner approval)
+## 6. Continuous integration (owner-approved approach)
 
-No workflow is added by this document. Once the owner approves, the proposed baseline is:
+No workflow is added by this document. The owner approved the following baseline on 27 November 2026; each workflow is still added in its own reviewed pull request:
 
 1. Format, lint and type checks.
 2. Unit, integration and contract tests.
@@ -117,7 +117,7 @@ The example is actionable with the checklist above; gaps found when applying it 
 
 ## 11. Open decisions
 
-- Final CI approach and tooling (owner approval required before any workflow is added).
+- Final CI tooling choices per component (the overall approach is owner-approved; workflows arrive with the scaffold pull request).
 - Evaluation-set ownership, thresholds and review cadence.
 - Coverage targets (proposed: set per component after the first implementation batch rather than a global number now).
-- Whether branch protection and required reviews are enabled on `main` (separate owner decision).
+- Required reviews and required status checks on `main`: protection is enabled without them (see the branch protection proposal); revisit when CI checks are stable or a second maintainer joins.

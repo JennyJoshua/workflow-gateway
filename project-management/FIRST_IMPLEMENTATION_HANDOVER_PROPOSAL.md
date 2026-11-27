@@ -19,11 +19,11 @@ WG-011 (workflow metadata contract) may proceed in parallel as a design task. BY
 
 ## 3. Entry gates (all require the owner)
 
-- [ ] Licence decision recorded (or explicit decision to proceed with the placeholder).
-- [ ] Acceptance of the ADRs this batch depends on: ADR-003 (database and authentication), ADR-005 (backend), ADR-006 (interface), ADR-010 (tenancy); ADR-007 optional.
+- [x] Licence decision recorded: proprietary, all rights reserved (27 November 2026).
+- [ ] Acceptance of the ADRs this batch depends on: ADR-003 (database and authentication), ADR-006 (interface) and ADR-010 (tenancy) accepted 27 November 2026; **ADR-005 (backend) awaits the FastAPI spike**; ADR-007 optional.
 - [ ] Threat model and database specification reviewed and accepted.
-- [ ] Branch protection decision for `main` ([proposal](../project-management/BRANCH_PROTECTION_PROPOSAL.md)).
-- [ ] Approval of the CI approach in the [standards](DEVELOPMENT_AND_TESTING_STANDARDS.md), including adding the first workflow.
+- [x] Branch protection approved and enabled on `main` (27 November 2026).
+- [x] CI approach in the standards approved by the owner (27 November 2026); each workflow still arrives in its own reviewed pull request.
 - [ ] Confirmation that no paid service is authorised for this batch.
 - [ ] Approval of the repository layout (section 4).
 

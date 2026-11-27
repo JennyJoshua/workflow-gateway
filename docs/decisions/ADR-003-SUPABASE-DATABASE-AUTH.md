@@ -1,6 +1,6 @@
 # ADR-003: Supabase for Database and Authentication
 
-- **Status:** Proposed — not owner-approved
+- **Status:** Accepted — owner-approved 27 November 2026, with conditions: the Free plan is for development and demonstration only; any pilot with customer data needs a separate owner-approved paid plan; row-level-security fit and exit-cost validation remain outstanding (see the [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md)).
 - **Date:** 2026-11-26
 - **Deciders:** Owner (final approval); ChatGPT (architecture review)
 - **Related issues:** WG-002, WG-004, WG-007, WG-020, WG-023
