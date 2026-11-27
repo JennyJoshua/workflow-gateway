@@ -72,6 +72,7 @@ Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 - [Product Requirements](docs/PRODUCT_REQUIREMENTS.md)
 - [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md)
 - [External AI Agent Integration Specification](docs/EXTERNAL_AI_AGENT_INTEGRATION_SPECIFICATION.md)
+- [Cross-Repository Integration Architecture](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md) (proposed contract; owner-confirmed planning defaults)
 - [Proposed External REST API — OpenAPI v1](api/openapi/v1.yaml) (planning contract; not deployed)
 - [Database Specification](docs/DATABASE_SPECIFICATION.md) (proposed; no migrations; see [independent review](docs/DATABASE_SPECIFICATION_REVIEW.md))
 - [Security and Governance](docs/SECURITY_AND_GOVERNANCE.md)
