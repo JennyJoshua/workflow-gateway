@@ -52,16 +52,16 @@ Phase: **M0 — Architecture and Project Foundation (planning).** The repository
 
 | Milestone | Theme |
 |---|---|
-| [M0](https://github.com/JennyJoshua/workflow-gateway/milestone/1) | Architecture and Project Foundation |
-| [M1](https://github.com/JennyJoshua/workflow-gateway/milestone/2) | Chat Application Foundation |
-| [M2](https://github.com/JennyJoshua/workflow-gateway/milestone/3) | Intent Analysis and Routing |
-| [M3](https://github.com/JennyJoshua/workflow-gateway/milestone/4) | Workflow Registry and Discovery |
-| [M4](https://github.com/JennyJoshua/workflow-gateway/milestone/5) | Workflow Execution |
-| [M5](https://github.com/JennyJoshua/workflow-gateway/milestone/6) | External Models and BYOK |
-| [M6](https://github.com/JennyJoshua/workflow-gateway/milestone/7) | Plugins and Tool Integrations |
-| [M7](https://github.com/JennyJoshua/workflow-gateway/milestone/8) | Security, Approvals and Observability |
-| [M8](https://github.com/JennyJoshua/workflow-gateway/milestone/9) | Commercial Platform |
-| [M9](https://github.com/JennyJoshua/workflow-gateway/milestone/10) | Marketplace and Ecosystem |
+| [M0](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/1) | Architecture and Project Foundation |
+| [M1](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/2) | Chat Application Foundation |
+| [M2](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/3) | Intent Analysis and Routing |
+| [M3](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/4) | Workflow Registry and Discovery |
+| [M4](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/5) | Workflow Execution |
+| [M5](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/6) | External Models and BYOK |
+| [M6](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/7) | Plugins and Tool Integrations |
+| [M7](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/8) | Security, Approvals and Observability |
+| [M8](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/9) | Commercial Platform |
+| [M9](https://github.com/Konam-Automation-Platform/workflow-gateway/milestone/10) | Marketplace and Ecosystem |
 
 Details: [Implementation Roadmap](docs/IMPLEMENTATION_ROADMAP.md).
 
