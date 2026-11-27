@@ -1,0 +1,50 @@
+name: Implementation task
+description: Work item for an approved implementation issue (planning issues use the existing WG issue format)
+title: "WG-___ - "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Implementation work is only started after the owner has approved the relevant implementation handover. See docs/DEVELOPMENT_AND_TESTING_STANDARDS.md.
+  - type: input
+    id: parent
+    attributes:
+      label: Parent issue
+      description: The WG issue this task belongs to
+      placeholder: "WG-008"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose and scope
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Testable statements, copied or refined from the parent issue
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security and tenancy considerations
+      description: Threat-model references, workspace isolation, permissions, audit events
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope
+  - type: checkboxes
+    id: dod
+    attributes:
+      label: Definition of done (docs/DEVELOPMENT_AND_TESTING_STANDARDS.md, section 3)
+      options:
+        - label: Acceptance criteria met with linked evidence
+        - label: Required tests added and passing (unit, integration, contract, security as applicable)
+        - label: Workspace isolation enforced and tested
+        - label: Authorisation enforced server-side; audit events emitted
+        - label: No secrets, keys or customer data in code, fixtures, logs or docs
+        - label: Documentation and issue register updated
+        - label: Owner approval recorded before merge
