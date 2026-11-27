@@ -59,7 +59,7 @@ External callers require authenticated client identity and narrowly scoped, revo
 
 | Candidate | Possible role | Status |
 |---|---|---|
-| Supabase | Auth, Postgres, row-level security, storage | Proposed; requires validation (free-tier limits, RLS fit, exit cost) |
+| Supabase | Candidate PostgreSQL/RLS/object storage for Gateway-owned conversation data only | Proposed; Konam remains authoritative for platform identity and tenancy; validate free-tier limits, RLS fit and exit cost |
 | Render | Backend and worker hosting | Proposed; requires validation (free-tier behaviour such as sleeping services) |
 | FastAPI | Application backend | Proposed |
 | Next.js | Customer interface | Proposed |
