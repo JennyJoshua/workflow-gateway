@@ -1,9 +1,19 @@
 # ADR-003: Supabase for Database and Authentication
 
-- **Status:** Accepted — owner-approved 27 November 2026, with conditions: the Free plan is for development and demonstration only; any pilot with customer data needs a separate owner-approved paid plan; row-level-security fit and exit-cost validation remain outstanding (see the [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md)).
+- **Status:** Accepted — owner-approved 27 November 2026, with conditions: the Free plan is for development and demonstration only; any pilot with customer data needs a separate owner-approved paid plan; row-level-security fit and exit-cost validation remain outstanding (see the [Technology Validation Report](../TECHNOLOGY_VALIDATION_REPORT.md)). Boundary clarification added 27 November 2026 (owner-approved).
 - **Date:** 2026-11-26
 - **Deciders:** Owner (final approval); ChatGPT (architecture review)
 - **Related issues:** WG-002, WG-004, WG-007, WG-020, WG-023
+
+## Boundary clarification (27 November 2026, owner-approved)
+
+The owner confirmed the cross-repository ownership boundary ([Technical Architecture](../TECHNICAL_ARCHITECTURE.md); [Konam integration specification](https://github.com/Konam-Automation-Platform/automation-business-control-centre/blob/main/docs/CROSS_REPOSITORY_INTEGRATION_SPECIFICATION.md)). This decision is therefore **narrowed**:
+
+- Supabase (PostgreSQL, and storage only if later approved) is the preferred development candidate for **Workflow Gateway-owned data only**: conversations, messages, UI and session data, and the minimum opaque Konam references. The Gateway-owned database specification (the WG-004 re-baseline) is in review.
+- **Supabase Auth is not the platform identity.** Konam is authoritative for platform identity, workspaces, membership, roles and entitlements, and the identity provider and token flow are not yet chosen. Gateway must not create a user, membership or role store, and must not use Supabase Auth or user metadata as an authorisation authority.
+- The Supabase Data API must not be reachable from browsers for Gateway tables; the database is accessed only by the Gateway backend.
+- Validation-plan item 1 (compare Supabase Auth with a backend-owned identity abstraction) is superseded by the identity decision in the integration specification. Items 2 to 5 remain, limited to Gateway-owned data and using Konam workspace references rather than locally defined workspaces.
+- The title is kept unchanged for traceability.
 
 ## Context
 
