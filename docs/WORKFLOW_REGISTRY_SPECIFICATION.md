@@ -77,9 +77,9 @@ The registry metadata describes capability and required permissions; it does not
 
 ## Execution contract (proposed)
 
-**Request:** execution_id, workflow_id and version, trusted server-resolved tenant/workspace context, authenticated principal/client context, validated inputs, idempotency key, callback reference for async runs. Client-supplied tenant/workspace identifiers are selectors only and must be verified server-side.
+**Request:** execution_id, workflow_id and version, workspace_id (the tenant context for both personal and organisation workspaces), validated inputs, idempotency key, callback reference for async runs.
 
-**Response (sync):** execution_id, status, outputs validated against output_schema, permitted usage data and safe result/file references.
+**Response (sync):** status, outputs validated against output_schema, usage data.
 
 **Async:** immediate acknowledgement with a tracking reference; status reported by signed callback or polling; states queued, running, awaiting approval, succeeded, failed, cancelled, timed out.
 

@@ -92,10 +92,13 @@ The current assignment is strategic architecture and planning documentation only
 
 - [Product Requirements](PRODUCT_REQUIREMENTS.md)
 - [Technical Architecture](TECHNICAL_ARCHITECTURE.md)
+- [Database Specification](DATABASE_SPECIFICATION.md) (proposed; see [independent review](DATABASE_SPECIFICATION_REVIEW.md))
 - [Security and Governance](SECURITY_AND_GOVERNANCE.md)
 - [Workflow Registry Specification](WORKFLOW_REGISTRY_SPECIFICATION.md)
 - [Routing and Orchestration Specification](ROUTING_AND_ORCHESTRATION_SPECIFICATION.md)
 - [Implementation Roadmap](IMPLEMENTATION_ROADMAP.md)
 - [Acceptance Criteria](ACCEPTANCE_CRITERIA.md)
+- [Security Threat Model](SECURITY_THREAT_MODEL.md)\n- [Architecture Review Recommendations](ARCHITECTURE_REVIEW_RECOMMENDATIONS.md) (proposed; owner review pending)
+- [Architecture Decision Register](decisions/README.md)
 - [ADR-001](decisions/ADR-001-OVERALL-PLATFORM-DIRECTION.md)
 - [ADR-002](decisions/ADR-002-AI-FIRST-WORKFLOW-SECOND.md)
