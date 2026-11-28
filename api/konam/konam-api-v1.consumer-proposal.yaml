@@ -1,0 +1,431 @@
+openapi: 3.1.0
+info:
+  title: Konam Platform API - Workflow Gateway consumer proposal
+  version: 0.1.0-proposal
+  summary: Consumer-driven proposal for the Gateway-to-Konam contract (not authoritative).
+  description: |
+    PROPOSAL ONLY. Konam owns the internal platform API and schema; this document states what
+    Workflow Gateway needs, so that Konam can adopt or amend it in the Konam repository.
+    Nothing here authorises implementation, exposes an endpoint or selects a vendor.
+    Paths, schemas and limits are provisional. Values marked x-pending-decision are not decided.
+    Authority rule: the principal, workspace and permissions are derived by Konam from validated
+    identity and membership. The X-Workspace-Ref header is a selector only, never proof of authority.
+servers:
+  - url: https://konam.example.invalid
+    description: Placeholder. No real host exists or is implied.
+security:
+  - delegatedUserToken: []
+tags:
+  - name: requests
+  - name: approvals
+  - name: capabilities
+  - name: compatibility
+paths:
+  /v1/requests:
+    post:
+      tags: [requests]
+      operationId: submitRequest
+      summary: Submit a problem-solving request
+      description: |
+        Long-running work is asynchronous. A 202 means accepted for processing, not that the task
+        succeeded. Gateway must not report completion until a terminal success state and result are returned.
+      parameters:
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+        - $ref: '#/components/parameters/GatewayClientVersion'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmitRequest'
+      responses:
+        '202':
+          description: Accepted for processing
+          headers:
+            Konam-API-Version:
+              $ref: '#/components/headers/KonamApiVersion'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestAcknowledgement'
+        '400': {$ref: '#/components/responses/Error'}
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '429': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/requests/{requestId}:
+    get:
+      tags: [requests]
+      operationId: getRequest
+      summary: Retrieve authoritative request state and safe result metadata
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Current request state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/requests/{requestId}/events:
+    get:
+      tags: [requests]
+      operationId: listRequestEvents
+      summary: Poll ordered progress and approval-state events
+      description: |
+        Authenticated polling is the confirmed starting point. Consumers must tolerate duplicate
+        and out-of-order delivery. Ordering is by sequence within one request.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+        - name: after
+          in: query
+          description: Opaque cursor returned as next_cursor by a previous call.
+          schema: {type: string, maxLength: 512}
+        - name: limit
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 200, default: 50}
+          x-pending-decision: polling limits (integration specification open decision 4)
+      responses:
+        '200':
+          description: A page of events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventPage'
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '429': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/requests/{requestId}/cancel:
+    post:
+      tags: [requests]
+      operationId: cancelRequest
+      summary: Request cancellation
+      description: |
+        Cancellation is a request, not a guarantee. A completed external action may not be reversible.
+        If the request is already terminal, the current terminal state is returned unchanged.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '202':
+          description: Cancellation requested or already complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/requests/{requestId}/approvals/{approvalId}/decision:
+    post:
+      tags: [approvals]
+      operationId: submitApprovalDecision
+      summary: Submit an authenticated decision for one specific pending approval
+      description: |
+        Gateway forwards the user's decision and never decides. Konam checks that the principal is
+        authorised to decide and that the approval is still pending and unchanged.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - name: approvalId
+          in: path
+          required: true
+          schema: {$ref: '#/components/schemas/OpaqueRef'}
+        - $ref: '#/components/parameters/IdempotencyKey'
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApprovalDecision'
+      responses:
+        '200':
+          description: Decision recorded; resulting request state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestStatus'
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '404': {$ref: '#/components/responses/Error'}
+        '409': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/capabilities:
+    get:
+      tags: [capabilities]
+      operationId: listCapabilities
+      summary: Permission-filtered capability summaries for UI display
+      description: Display only. Listing a capability confers no authority to run it.
+      parameters:
+        - $ref: '#/components/parameters/WorkspaceRef'
+        - $ref: '#/components/parameters/CorrelationId'
+      responses:
+        '200':
+          description: Capability summaries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CapabilityList'
+        '401': {$ref: '#/components/responses/Error'}
+        '403': {$ref: '#/components/responses/Error'}
+        '503': {$ref: '#/components/responses/Error'}
+  /v1/compatibility:
+    get:
+      tags: [compatibility]
+      operationId: getCompatibility
+      summary: Declare the supported Gateway client version range
+      security: []
+      responses:
+        '200':
+          description: Compatibility declaration
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompatibilityDeclaration'
+components:
+  securitySchemes:
+    delegatedUserToken:
+      type: http
+      scheme: bearer
+      description: |
+        Short-lived, audience-restricted delegated token representing the end user. The Gateway service
+        identity is carried separately and is kept distinct in audit records. The exact identity provider
+        and token-exchange flow are not selected (integration specification open decision 1).
+  parameters:
+    IdempotencyKey:
+      name: Idempotency-Key
+      in: header
+      required: true
+      description: Client-generated key. The same key with different content is a conflict.
+      schema: {type: string, minLength: 8, maxLength: 128, pattern: '^[A-Za-z0-9._:-]+$'}
+    WorkspaceRef:
+      name: X-Workspace-Ref
+      in: header
+      required: true
+      description: Selector only. Konam verifies membership and never treats this as proof of authority.
+      schema: {$ref: '#/components/schemas/OpaqueRef'}
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      description: Optional inbound trace context. Konam generates one if absent and always returns it.
+      schema: {$ref: '#/components/schemas/OpaqueRef'}
+    GatewayClientVersion:
+      name: Gateway-Client-Version
+      in: header
+      required: false
+      description: Lets Konam enforce its declared compatibility range.
+      schema: {type: string, maxLength: 64}
+    RequestId:
+      name: requestId
+      in: path
+      required: true
+      schema: {$ref: '#/components/schemas/OpaqueRef'}
+  headers:
+    KonamApiVersion:
+      description: Konam API version that served the call.
+      schema: {type: string, maxLength: 64}
+  responses:
+    Error:
+      description: Stable error envelope. Never contains stack traces, secrets or provider payloads.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+  schemas:
+    OpaqueRef:
+      type: string
+      minLength: 1
+      maxLength: 128
+      pattern: '^[A-Za-z0-9._:-]+$'
+      description: Opaque identifier. Compared by exact match and never parsed or given meaning.
+    RequestState:
+      type: string
+      enum: [accepted, queued, running, awaiting_approval, succeeded, failed, cancel_requested, cancelled, timed_out]
+      description: Konam owns transitions. Gateway displays them and never sets them.
+    SubmitRequest:
+      type: object
+      additionalProperties: false
+      required: [client_request_ref, conversation_ref, goal]
+      description: The principal, workspace and scopes are not request fields; they come from validated identity.
+      properties:
+        client_request_ref: {$ref: '#/components/schemas/OpaqueRef'}
+        conversation_ref: {$ref: '#/components/schemas/OpaqueRef'}
+        goal:
+          type: string
+          minLength: 1
+          maxLength: 16000
+          x-pending-decision: maximum size (Gateway database specification OD-8)
+        constraints:
+          type: array
+          maxItems: 20
+          items: {type: string, maxLength: 1000}
+        context:
+          type: array
+          maxItems: 50
+          description: Only the context needed for the task.
+          items:
+            type: object
+            additionalProperties: false
+            required: [message_ref, role, content]
+            properties:
+              message_ref: {$ref: '#/components/schemas/OpaqueRef'}
+              role: {type: string, enum: [user, assistant]}
+              content: {type: string, maxLength: 16000}
+        attachments:
+          type: array
+          maxItems: 10
+          items:
+            type: object
+            additionalProperties: false
+            required: [file_ref]
+            properties:
+              file_ref: {$ref: '#/components/schemas/OpaqueRef'}
+        preferences:
+          type: object
+          additionalProperties: false
+          description: Preferences never override platform policy, entitlement, availability, safety or approval gates.
+          properties:
+            response_mode: {type: string, enum: [concise, standard, detailed]}
+            locale: {type: string, maxLength: 35}
+            model_preference: {type: string, maxLength: 128}
+    RequestAcknowledgement:
+      type: object
+      required: [request_id, correlation_id, state, status_ref, created_at]
+      properties:
+        request_id: {$ref: '#/components/schemas/OpaqueRef'}
+        correlation_id: {$ref: '#/components/schemas/OpaqueRef'}
+        state: {type: string, enum: [accepted, queued]}
+        status_ref: {type: string, maxLength: 512}
+        created_at: {type: string, format: date-time}
+    RequestStatus:
+      type: object
+      required: [request_id, correlation_id, state, state_updated_at, created_at]
+      properties:
+        request_id: {$ref: '#/components/schemas/OpaqueRef'}
+        correlation_id: {$ref: '#/components/schemas/OpaqueRef'}
+        state: {$ref: '#/components/schemas/RequestState'}
+        state_updated_at: {type: string, format: date-time}
+        created_at: {type: string, format: date-time}
+        result:
+          description: Present only when state is succeeded.
+          allOf:
+            - $ref: '#/components/schemas/RequestResult'
+        error:
+          description: Present only when state is failed or timed_out.
+          allOf:
+            - $ref: '#/components/schemas/ErrorBody'
+        pending_approval:
+          description: Present only when state is awaiting_approval.
+          allOf:
+            - $ref: '#/components/schemas/PendingApproval'
+    RequestResult:
+      type: object
+      required: [content, content_format]
+      properties:
+        content: {type: string}
+        content_format: {type: string, enum: [text, markdown]}
+        model_label:
+          type: string
+          maxLength: 128
+          description: Display label only; not an authoritative record of routing.
+        attachments:
+          type: array
+          items:
+            type: object
+            required: [file_ref]
+            properties:
+              file_ref: {$ref: '#/components/schemas/OpaqueRef'}
+    PendingApproval:
+      type: object
+      required: [approval_id, summary, expires_at]
+      properties:
+        approval_id: {$ref: '#/components/schemas/OpaqueRef'}
+        summary: {type: string, maxLength: 2000}
+        risk_level: {type: string, enum: [low, medium, high]}
+        expires_at: {type: string, format: date-time}
+    ApprovalDecision:
+      type: object
+      additionalProperties: false
+      required: [decision]
+      properties:
+        decision: {type: string, enum: [approve, reject]}
+        note: {type: string, maxLength: 1000}
+    EventPage:
+      type: object
+      required: [events]
+      properties:
+        events:
+          type: array
+          items: {$ref: '#/components/schemas/RequestEvent'}
+        next_cursor:
+          type: string
+          maxLength: 512
+    RequestEvent:
+      type: object
+      required: [event_id, request_id, correlation_id, type, sequence, occurred_at]
+      properties:
+        event_id: {$ref: '#/components/schemas/OpaqueRef'}
+        request_id: {$ref: '#/components/schemas/OpaqueRef'}
+        correlation_id: {$ref: '#/components/schemas/OpaqueRef'}
+        type: {type: string, enum: [state_changed, approval_requested, approval_resolved, progress_note]}
+        sequence: {type: integer, minimum: 0}
+        occurred_at: {type: string, format: date-time}
+        payload:
+          type: object
+          additionalProperties: true
+          description: Minimal structured payload. No engine-specific or provider-specific identifiers.
+    CapabilityList:
+      type: object
+      required: [capabilities]
+      properties:
+        capabilities:
+          type: array
+          items:
+            type: object
+            required: [capability_ref, display_name]
+            properties:
+              capability_ref: {$ref: '#/components/schemas/OpaqueRef'}
+              display_name: {type: string, maxLength: 200}
+              description: {type: string, maxLength: 1000}
+              category: {type: string, maxLength: 100}
+    CompatibilityDeclaration:
+      type: object
+      required: [api_version, min_supported_gateway_client, max_supported_gateway_client]
+      properties:
+        api_version: {type: string}
+        min_supported_gateway_client: {type: string}
+        max_supported_gateway_client: {type: string}
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error: {$ref: '#/components/schemas/ErrorBody'}
+    ErrorBody:
+      type: object
+      required: [code, message, retryable, correlation_id]
+      properties:
+        code:
+          type: string
+          enum: [validation_error, authentication_error, authorization_error, not_found, quota_exceeded, conflict, idempotency_conflict, timeout, capability_unavailable, approval_required, service_unavailable, internal_error]
+        message: {type: string, maxLength: 1000}
+        retryable: {type: boolean}
+        correlation_id: {$ref: '#/components/schemas/OpaqueRef'}
