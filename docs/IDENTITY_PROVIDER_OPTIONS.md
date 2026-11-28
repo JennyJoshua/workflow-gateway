@@ -36,7 +36,7 @@ Sources: [pricing](https://zitadel.com/pricing), [pricing detail](https://zitade
 
 - Free plan, US$0 per month: unlimited users and organisations, **100 daily active users**, 3 external identity providers, service users, all security features, and a data-residency choice of EU, US, Switzerland or Australia. Pro starts at US$100 per month with 25,000 daily active users.
 - A daily active user is anyone who authenticates or refreshes a token that day; service users that authenticate also count.
-- OAuth 2.0 Token Exchange (RFC 8693) was announced in April 2024 as a feature to enable, aimed at impersonation and delegation. Its current maturity and exact behaviour were **not verified** here.
+- Token exchange: the [official guide](https://zitadel.com/docs/guides/integrate/token-exchange) says it implements RFC 8693 and is currently an **experimental beta** that must be enabled through the instance feature API. It can exchange a token to a different scope, audience or subject, but a requested audience can never include one that was not already in the subject or actor token, so it can narrow but not widen. It returns opaque access tokens unless a JWT is requested, does not issue refresh tokens, treats delegation and impersonation as the same thing, and is recommended only for confidential clients.
 - A self-hosted edition exists; its licence was not verified in this pass. Third-party pages quote conflicting free-tier user numbers; only the vendor's own figures are used above.
 
 ### Auth0 (software as a service)
@@ -56,7 +56,7 @@ Supabase Auth, Clerk, Amazon Cognito, Microsoft Entra External ID, Authentik, Or
 | Requirement | Keycloak | ZITADEL | Auth0 |
 |---|---|---|---|
 | R1 OIDC with PKCE | Yes | Standards-based (not separately checked) | Yes |
-| R2 Delegated, audience-restricted tokens | Supported (standard exchange; delegation in preview) | Token exchange announced 2024; **needs verification** | **Paid plan only** |
+| R2 Delegated, audience-restricted tokens | Supported (standard exchange; delegation in preview) | Token exchange is **experimental beta** and narrow-only; v1 should not depend on it | **Paid plan only** |
 | R3 Revocation and introspection | Documented | Not checked | Not checked |
 | R4 Service identity | Standard client credentials | Service users, which count toward daily active users | Machine-to-machine tokens are a paid add-on at higher tiers |
 | R5 MFA or passkeys | Yes | Included in free security features | Passkeys free; some MFA features paid |
@@ -66,10 +66,16 @@ Supabase Auth, Clerk, Amazon Cognito, Microsoft Entra External ID, Authentik, Or
 
 ## 4. Recommendation (for the owner's and Konam's decision)
 
-1. **Shortlist ZITADEL Cloud Free as the development and small-pilot candidate.** It best fits free-first with minimal operations, offers the nearest-to-Papua-New-Guinea region of the four it lists (Australia), and is standards-based so Konam can leave later. Its limit is 100 daily active users, with service users counted.
+1. **Shortlist ZITADEL Cloud Free as the development and small-pilot candidate.** It best fits free-first with minimal operations, offers the nearest-to-Papua-New-Guinea region of the four it lists (Australia), and is standards-based so Konam can leave later. Its limits are 100 daily active users (service users counted) and a beta token-exchange feature, so the design below must not rely on token exchange.
 2. **Keep Keycloak as the fallback** if token-exchange behaviour is insufficient in ZITADEL or if self-hosting becomes affordable. It has the clearest delegation support but no free hosting path.
 3. **Do not choose Auth0 for v1** unless the owner approves a paid plan, because delegated tokens (R2) are not in Free.
-4. **Run a verification spike before deciding** (no paid service): in a free ZITADEL test instance, prove that a user token can be exchanged for a short-lived, audience-restricted token for the Konam API, that revocation takes effect, that service identities are separable in audit events, and how daily active users are counted. Only the owner can approve creating the account.
+4. **Run the verification spike before deciding** (approved by the owner on 28 November 2026; free account only, no paid service). The plan and pass criteria are in the [ZITADEL verification spike](spikes/ZITADEL_VERIFICATION_SPIKE.md). Only the owner can create the account.
+
+### Design implication: R2 without token exchange
+
+R2 can be met in v1 without token exchange. Gateway signs the user in through standard OpenID Connect, the access token is issued with the Konam API as its audience and a short lifetime, and Konam validates or introspects it on every call. Konam can tell Gateway-originated calls apart if the token identifies the calling client (to be verified in the spike). Token exchange stays a later option for narrowing scope, not a v1 dependency. This applies equally to the other providers, because Keycloak's delegation support is a preview feature and Auth0 reserves token exchange for a paid plan.
+
+**Interaction with OD-3:** the Gateway database decision (short-lived validated tokens, no session table) assumes tokens are held by the browser and refreshed directly with the provider. If Konam instead chooses a server-side pattern in which Gateway holds refresh tokens, a session store reappears and OD-3 must be reopened with owner approval.
 
 ## 5. Open points
 
