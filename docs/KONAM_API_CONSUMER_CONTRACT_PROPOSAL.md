@@ -1,6 +1,6 @@
 # Gateway-to-Konam API: Consumer Contract Proposal
 
-> **Status: proposal for Konam to adopt or amend, prepared 27 November 2026.** Konam owns the internal platform API and its schema. This document and the [OpenAPI draft](../api/konam/konam-api-v1.consumer-proposal.yaml) state what Workflow Gateway needs, so that the contract can be agreed in the Konam repository. Nothing here authorises implementation, exposes an endpoint, selects a vendor or creates a Konam deliverable. Paths, schemas and limits are provisional.
+> **Status: proposal for Konam to adopt or amend, prepared 27 November 2026; tracked in Konam issue P1-033 (repository `automation-business-control-centre`, issue #36), added by owner approval on 28 November 2026.** Konam owns the internal platform API and its schema. This document and the [OpenAPI draft](../api/konam/konam-api-v1.consumer-proposal.yaml) state what Workflow Gateway needs, so that the contract can be agreed in the Konam repository. Nothing here authorises implementation, exposes an endpoint, selects a vendor or creates a Konam deliverable. Paths, schemas and limits are provisional.
 
 ## 1. Why this exists
 
