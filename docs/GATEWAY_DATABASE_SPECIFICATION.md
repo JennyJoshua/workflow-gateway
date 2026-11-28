@@ -1,6 +1,6 @@
 # Workflow Gateway: Gateway-owned Database Specification (WG-004 re-baseline)
 
-> **Status: proposed logical specification, prepared 27 November 2026, awaiting owner review. OD-1, OD-3 and OD-4 are decided (section 12); the OD-2 retention defaults await owner confirmation.** It replaces the physical scope of the [original database specification](DATABASE_SPECIFICATION.md), which is kept as a historical, broader draft. This is a planning artefact: no schema, migration, database or hosted service exists or is authorised. Supabase and every other product remain candidates subject to [ADR-003](decisions/ADR-003-SUPABASE-DATABASE-AUTH.md) as clarified.
+> **Status: proposed logical specification, prepared 27 November 2026, awaiting owner review. OD-1 to OD-4 are decided (section 12). OD-5 to OD-8 remain open and follow the Konam API contract.** It replaces the physical scope of the [original database specification](DATABASE_SPECIFICATION.md), which is kept as a historical, broader draft. This is a planning artefact: no schema, migration, database or hosted service exists or is authorised. Supabase and every other product remain candidates subject to [ADR-003](decisions/ADR-003-SUPABASE-DATABASE-AUTH.md) as clarified.
 
 ## 1. Purpose and boundary
 
@@ -160,11 +160,11 @@ Database defence in depth:
 - Duplicate and out-of-order event delivery is tolerated when mirroring Konam state.
 - Conversation operations are audited at the edge through structured logs with correlation IDs. Gateway keeps no platform audit store; Konam owns authoritative audit.
 
-## 9. Data classification and retention (proposed defaults, awaiting owner approval)
+## 9. Data classification and retention (owner-approved defaults)
 
-The durations below are **proposals for the owner to approve, change or reject (OD-2)**. They are not decided, are not legal advice, and no jurisdiction or customer obligation has been confirmed. Organisation workspaces may need different periods, to be set through Konam policy (OD-7). Indefinite retention is not assumed acceptable.
+The durations below were **approved by the owner on 27 November 2026 (OD-2)** as the Gateway defaults. They are not legal advice and no jurisdiction or customer obligation has been confirmed, so they must be re-checked against legal and customer requirements before a pilot. Organisation workspaces may need different periods, to be set through Konam policy (OD-7). Indefinite retention is not assumed acceptable.
 
-| Data | Examples | Proposed default | Notes |
+| Data | Examples | Approved default | Notes |
 |---|---|---|---|
 | Conversation content | messages and results | **12 months after last activity**, then `deletion_pending` with 30 days' notice and an export offer. Users can delete or export at any time; a deletion request completes within 30 days | Balances usefulness against data minimisation; easy to lengthen later, hard to shorten after the fact |
 | Attachment metadata and files | filenames, `file_ref`, stored objects | Removed with the message; stored objects deleted within 30 days of message deletion | Object handling depends on OD-6 |
@@ -200,11 +200,9 @@ The controls here address cross-workspace access, forged workspace context, repl
 - **OD-3 Session model: short-lived validated tokens, no `gateway_sessions` table in v1.** Decided by Claude under the owner's delegation ("choose the best for me"). Reasons: Konam is the authoritative identity layer, so a Gateway session store would duplicate session authority, add a secret-bearing table and complicate revocation; Konam re-validates the token on every operation, so revocation takes effect without a Gateway-side list. Revisit only if the identity flow chosen by Konam cannot support this; that needs an amendment and owner approval.
 - **OD-4 Reference format: opaque text, never parsed.** Decided by Claude under the same delegation. `workspace_ref` and `user_ref` are text, at most 128 characters, from a restricted character set, compared by exact match. Reasons: no coupling to Konam's internal ID scheme, any ID type is accepted, and nothing can be inferred from an identifier. Konam is asked to issue non-guessable identifiers.
 
+- **OD-2 Retention durations: approved as the section 9 defaults.** Owner decision, 27 November 2026; to be re-checked against legal and customer requirements before a pilot.
+
 Items decided by delegation remain open to the owner to overrule, and OD-3 and OD-4 must still be reconciled with the Konam API contract and identity-provider decision.
-
-### Proposed, awaiting owner confirmation
-
-- **OD-2 Retention durations:** the defaults in section 9.
 
 ### Still open
 
@@ -227,7 +225,7 @@ Items decided by delegation remain open to the owner to overrule, and OD-3 and O
 - [x] Retention, export and deletion are specified as proposals.
 - [x] Migration and recovery requirements are stated without performing them.
 - [x] OD-1, OD-3 and OD-4 decided (OD-3 and OD-4 by delegation).
-- [ ] OD-2 retention defaults confirmed by the owner.
+- [x] OD-2 retention defaults approved by the owner (27 November 2026).
 - [ ] OD-5 to OD-8 decided (OD-5, OD-7 and OD-8 can follow the Konam API contract).
 - [ ] Owner review and acceptance of this re-baseline.
 - [ ] Independent cross-document consistency review and threat-model mapping.
