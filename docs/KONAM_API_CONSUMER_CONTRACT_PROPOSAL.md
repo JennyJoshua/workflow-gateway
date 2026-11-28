@@ -52,7 +52,7 @@ Proposed HTTP mapping: 400 validation, 401 authentication, 403 authorisation, 40
 
 ## 6. Mapping to the Gateway-owned data model
 
-The request-link record in the Gateway database specification (PR #48, not yet merged) holds `konam_request_id`, `correlation_id`, the submission idempotency key, the last known state and its time, the last event cursor, and an optional result message. That table is a display cache of what Konam last returned and is never evidence of execution.
+The request-link record in the [Gateway-owned database specification](GATEWAY_DATABASE_SPECIFICATION.md) holds `konam_request_id`, `correlation_id`, the submission idempotency key, the last known state and its time, the last event cursor, and an optional result message. That table is a display cache of what Konam last returned and is never evidence of execution.
 
 ## 7. Planned use inside Gateway (after separate authorisation)
 
@@ -65,7 +65,7 @@ A Konam client interface with a **stub** that implements this contract, consumer
 3. Workspace resolution when a user belongs to several workspaces: is a selector header acceptable?
 4. Reference formats and whether `correlation_id` is supplied or generated (this draft allows both).
 5. Event semantics: polling cadence and limits, ordering guarantees, retention of events, and any future SSE criteria.
-6. Maximum sizes for goal, context and result (the Gateway database specification calls this OD-8).
+6. Maximum sizes for goal, context and result (the Gateway-owned database specification calls this OD-8).
 7. File references: who stores the bytes, and scanning and lifecycle (OD-6).
 8. Deletion and export coordination, including workspace closure (OD-7), and whether Konam retains full results (OD-5).
 9. Timeout budgets and retry ceilings for the pilot objectives.
