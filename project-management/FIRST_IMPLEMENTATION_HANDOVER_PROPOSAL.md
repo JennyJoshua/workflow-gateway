@@ -53,7 +53,7 @@ These ADRs were accepted before the boundary was applied to them. They are **not
 - [ ] Database specification re-baselined to Gateway-owned scope and reviewed (precondition for WG-004 and any schema).
 - [ ] Gateway-to-Konam API contract drafted and approved in the Konam repository.
 - [ ] Identity provider and token flow decided.
-- [ ] Conversation retention, export and deletion defined.
+- [ ] Conversation retention, export and deletion defined (retention defaults approved 27 November 2026; export and deletion coordination with Konam, OD-7, still open).
 - [x] Classification in section 2 confirmed by the owner, and the ADR reconciliations in section 4 decided to be applied (27 November 2026).
 
 ## 6. Environment
